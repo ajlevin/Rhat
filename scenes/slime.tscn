@@ -1,0 +1,85 @@
+[gd_scene load_steps=14 format=3 uid="uid://hybhexve5a6r"]
+
+[ext_resource type="Script" path="res://scripts/slime.gd" id="1_83emx"]
+[ext_resource type="Texture2D" uid="uid://dspiolniequss" path="res://reference/slime_green.png" id="1_ixhr0"]
+[ext_resource type="Script" path="res://scripts/stats.gd" id="2_1ro4y"]
+[ext_resource type="PackedScene" uid="uid://b0jcpjjsmdkag" path="res://scenes/hitbox.tscn" id="2_48u3d"]
+[ext_resource type="PackedScene" uid="uid://qn6ssj8nvlla" path="res://scenes/entity.tscn" id="4_eb1cj"]
+[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="6_n4xmk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_52dwr"]
+atlas = ExtResource("1_ixhr0")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_adbar"]
+atlas = ExtResource("1_ixhr0")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dl11k"]
+atlas = ExtResource("1_ixhr0")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ok3gb"]
+atlas = ExtResource("1_ixhr0")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_57v6j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_52dwr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_adbar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dl11k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ok3gb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sgy4q"]
+size = Vector2(10, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2jn3s"]
+size = Vector2(10, 12)
+
+[node name="Slime" type="RigidBody2D"]
+collision_layer = 2
+script = ExtResource("1_83emx")
+
+[node name="stats" type="Node2D" parent="."]
+script = ExtResource("2_1ro4y")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_57v6j")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="hitbox" parent="." instance=ExtResource("2_48u3d")]
+collision_layer = 4
+collision_mask = 32
+
+[node name="box" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_sgy4q")
+
+[node name="collision" parent="." instance=ExtResource("4_eb1cj")]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_2jn3s")
+
+[node name="hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 16
+script = ExtResource("6_n4xmk")
+
+[node name="box" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_sgy4q")
+
+[connection signal="health_zero" from="stats" to="." method="_on_health_zero"]
