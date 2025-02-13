@@ -1,10 +1,26 @@
-[gd_scene load_steps=49 format=3 uid="uid://cahhif8t6eo03"]
+[gd_scene load_steps=58 format=3 uid="uid://cahhif8t6eo03"]
 
 [ext_resource type="Texture2D" uid="uid://baaiww6rg2ogv" path="res://reference/knight.png" id="1_gpfj7"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_ygmf4"]
 [ext_resource type="Script" path="res://scripts/stats.gd" id="2_yas6q"]
 [ext_resource type="PackedScene" uid="uid://nyc3ohxqbouq" path="res://scenes/hurtbox.tscn" id="3_3jhed"]
 [ext_resource type="PackedScene" uid="uid://qn6ssj8nvlla" path="res://scenes/entity.tscn" id="4_ordkh"]
+[ext_resource type="Script" path="res://scripts/FSM/StateMachine.gd" id="6_vlsyt"]
+[ext_resource type="Script" path="res://scripts/FSM/Idle.gd" id="7_qyw7l"]
+[ext_resource type="Script" path="res://scripts/FSM/Run.gd" id="8_5mwc2"]
+[ext_resource type="Script" path="res://scripts/FSM/Attack.gd" id="9_dav7q"]
+[ext_resource type="Script" path="res://scripts/FSM/OnWall.gd" id="10_wy3i6"]
+[ext_resource type="Script" path="res://scripts/FSM/Airborne.gd" id="11_rdxji"]
+[ext_resource type="Script" path="res://scripts/FSM/Dead.gd" id="12_ex2rv"]
+[ext_resource type="Script" path="res://scripts/FSM/Spawn.gd" id="13_scs5x"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_paou6"]
+radius = 6.0
+height = 18.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2cqu"]
+radius = 5.0
+height = 16.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0oha4"]
 atlas = ExtResource("1_gpfj7")
@@ -286,14 +302,6 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i2cqu"]
-radius = 5.0
-height = 16.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_paou6"]
-radius = 6.0
-height = 18.0
-
 [sub_resource type="Animation" id="Animation_gnnj4"]
 length = 0.001
 tracks/0/type = "method"
@@ -380,6 +388,8 @@ _data = {
 "hitBlink": SubResource("Animation_xo4vd")
 }
 
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_bf6k0"]
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_ygmf4")
@@ -389,12 +399,10 @@ actionable = false
 position = Vector2(0, 3)
 script = ExtResource("2_yas6q")
 
-[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_35i41")
-animation = &"hit"
-autoplay = "idle"
-frame = 1
-frame_progress = 0.634434
+[node name="collision" parent="." instance=ExtResource("4_ordkh")]
+light_mask = 2
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_paou6")
 
 [node name="hurtbox" parent="." instance=ExtResource("3_3jhed")]
 collision_layer = 32
@@ -404,16 +412,23 @@ collision_mask = 4
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_i2cqu")
 
-[node name="collision" parent="." instance=ExtResource("4_ordkh")]
-light_mask = 2
-position = Vector2(0, 3)
-shape = SubResource("CapsuleShape2D_paou6")
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_35i41")
+animation = &"hit"
+autoplay = "idle"
+frame = 1
+frame_progress = 0.634434
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_20523")
 }
 autoplay = "RESET"
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_bf6k0")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
 
 [node name="Timers" type="Node" parent="."]
 
@@ -427,17 +442,43 @@ one_shot = true
 
 [node name="CoyoteTimer" type="Timer" parent="Timers"]
 
-[node name="leftRay" type="RayCast2D" parent="."]
+[node name="Rays" type="Node" parent="."]
+
+[node name="leftRay" type="RayCast2D" parent="Rays"]
 position = Vector2(-4, -5)
 target_position = Vector2(0, -9)
 
-[node name="rightRay" type="RayCast2D" parent="."]
+[node name="rightRay" type="RayCast2D" parent="Rays"]
 position = Vector2(4, -5)
 target_position = Vector2(0, -9)
 
-[node name="centralRay" type="RayCast2D" parent="."]
+[node name="centralRay" type="RayCast2D" parent="Rays"]
 position = Vector2(0, -6)
 target_position = Vector2(0, -8)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("6_vlsyt")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("7_qyw7l")
+
+[node name="Run" type="Node" parent="StateMachine"]
+script = ExtResource("8_5mwc2")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("9_dav7q")
+
+[node name="OnWall" type="Node" parent="StateMachine"]
+script = ExtResource("10_wy3i6")
+
+[node name="Airborne" type="Node" parent="StateMachine"]
+script = ExtResource("11_rdxji")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("12_ex2rv")
+
+[node name="Spawn" type="Node" parent="StateMachine"]
+script = ExtResource("13_scs5x")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]

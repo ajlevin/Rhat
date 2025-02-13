@@ -10,9 +10,9 @@ const KICK_TIMER_DURATION = 0.15
 
 @onready var jump_buffer_timer = $Timers/JumpBufferTimer
 @onready var coyote_timer = $Timers/CoyoteTimer
-@onready var central_ray = $centralRay
-@onready var right_ray = $rightRay
-@onready var left_ray = $leftRay
+@onready var central_ray = $Rays/centralRay
+@onready var right_ray = $Rays/rightRay
+@onready var left_ray = $Rays/leftRay
 
 var jumpBuffered : bool = false
 var coyoteTime : bool = false
