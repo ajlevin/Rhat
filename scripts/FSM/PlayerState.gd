@@ -4,13 +4,14 @@ extends Node
 signal transitioned
 
 @onready var player : Player = $"../.."
-@onready var right_wall_ray : RayCast2D = $"../../Rays/rightWallRay"
-@onready var left_wall_ray : RayCast2D = $"../../Rays/leftWallRay"
-@onready var left_ray : RayCast2D = $"../../Rays/leftRay"
-@onready var right_ray : RayCast2D = $"../../Rays/rightRay"
-@onready var central_ray : RayCast2D = $"../../Rays/centralRay"
 @onready var stats : Stats = $"../../stats"
 @onready var animation_player = $"../../AnimationPlayer"
+
+@onready var right_wall_ray : RayCast2D = $"../../Rays/rightWall"
+@onready var left_wall_ray : RayCast2D = $"../../Rays/leftWall"
+@onready var left_ray : RayCast2D = $"../../Rays/leftBump"
+@onready var right_ray : RayCast2D = $"../../Rays/rightBump"
+@onready var central_ray : RayCast2D = $"../../Rays/midBump"
 
 ### Handles state entry
 func enter():

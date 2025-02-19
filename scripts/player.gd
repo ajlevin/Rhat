@@ -10,17 +10,16 @@ const KICK_TIMER_DURATION = 0.15
 
 @onready var jump_buffer_timer = $Timers/JumpBufferTimer
 @onready var coyote_timer = $Timers/CoyoteTimer
-@onready var central_ray = $Rays/centralRay
-@onready var right_ray = $Rays/rightRay
-@onready var left_ray = $Rays/leftRay
+@onready var central_ray = $Rays/midBump
+@onready var right_ray = $Rays/rightBump
+@onready var left_ray = $Rays/leftBump
 
 var jumpBuffered : bool = false
 var coyoteTime : bool = false
 var wasOnFloor : bool = true
 var extraJump : bool = true
-var attacking : bool = false
+
 @export var actionable : bool = true
-var damage : int = 1
 
 @onready var sprite = $AnimatedSprite
 @onready var animation_player = $AnimationPlayer 
@@ -29,10 +28,6 @@ var damage : int = 1
 
 func _ready():
 	actionable = true
-	
-func _on_stats_health_changed(diff):
-	if diff < 0:
-		animation_player.play("hitBlink")
 	
 func _on_kick_timer_timeout():
 	extraJump = true
@@ -49,10 +44,6 @@ func _process(_delta : float):
 	if Input.is_action_just_pressed("damage"):
 		pass
 		# die()
-		
-	#if animation_player.current_animation != anim:
-		#print("Current:" + animation_player.current_animation)
-		#print("Var:" + anim)
 
 # Physics processing
 func _physics_process(delta):
@@ -83,34 +74,24 @@ func _physics_process(delta):
 		!(central_ray.is_colliding() or right_ray.is_colliding()):
 			self.position.x += 5
 			
-		
 		if is_on_floor() or coyoteTime:
-			coyoteTime = false
+			coyoteTime = false # jump
 		elif is_on_wall_only():
-			velocity.y = JUMP_VELOCITY
+			velocity.y = JUMP_VELOCITY # wall jump
 			actionable = false
 			kick_timer.start(KICK_TIMER_DURATION)
 			velocity.x = KICK_SPEED * direction.x
 			move_and_slide()
 			return
 		elif extraJump:
-			velocity.y = JUMP_VELOCITY
+			velocity.y = JUMP_VELOCITY # jump
 			extraJump = false
 		else:
-			jumpBuffered = true
+			jumpBuffered = true # no jump
 			jump_buffer_timer.start(JUMP_BUFFER_DURATION)
 		
 		# no coyote time from jumping -- only from walking off an edge
 		wasOnFloor = false
 		coyoteTime = false
-	
-	# Get the input direction and handle the movement/deceleration.
-	if direction.x:
-		if (direction.x > 0):
-			sprite.flip_h = false
-			# attack.scale.x = 1
-		else:
-			sprite.flip_h = true
-			# attack.scale.x = -1
 	
 	move_and_slide()

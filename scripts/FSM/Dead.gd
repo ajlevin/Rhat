@@ -14,7 +14,8 @@ func update(delta : float):
 	pass
 	
 func physics_update(delta : float):
-	pass
+	player.velocity.y = min(
+		player.velocity.y + (stats.GRAVITY * delta), stats.TERMINAL_VELOCITY)
 
 func reload_scene():
 	get_tree().reload_current_scene()

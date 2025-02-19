@@ -50,7 +50,12 @@ func on_child_transition(state, newStateName):
 	newState.enter()
 	curState = newState
 
-### Waits for player death signal and switches to dead" state
+### Waits for player death signal and switches to "dead" state
 func _on_health_zero():
 	print("Got death signal")
 	on_child_transition(curState, "dead")
+
+### Waits for player damaged and switches to "hit" state
+func _on_health_changed(diff):
+	if diff < 0:
+		on_child_transition(curState, "hit")

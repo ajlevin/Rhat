@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://cahhif8t6eo03"]
+[gd_scene load_steps=60 format=3 uid="uid://cahhif8t6eo03"]
 
 [ext_resource type="Texture2D" uid="uid://baaiww6rg2ogv" path="res://reference/knight.png" id="1_gpfj7"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_ygmf4"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/FSM/Airborne.gd" id="11_rdxji"]
 [ext_resource type="Script" path="res://scripts/FSM/Dead.gd" id="12_ex2rv"]
 [ext_resource type="Script" path="res://scripts/FSM/Spawn.gd" id="13_scs5x"]
+[ext_resource type="Script" path="res://scripts/FSM/Hit.gd" id="14_fmnic"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0oha4"]
 atlas = ExtResource("1_gpfj7")
@@ -390,6 +391,20 @@ tracks/1/keys = {
 "method": &"set_temp_immortality"
 }]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("StateMachine/Hit")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"state_check"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_20523"]
 _data = {
@@ -462,25 +477,25 @@ one_shot = true
 
 [node name="Rays" type="Node" parent="." groups=["Player"]]
 
-[node name="rightWallRay" type="RayCast2D" parent="Rays" groups=["Player"]]
+[node name="rightWall" type="RayCast2D" parent="Rays" groups=["Player"]]
 position = Vector2(6, 4)
-target_position = Vector2(5, 0)
+target_position = Vector2(10, 0)
 
-[node name="leftWallRay" type="RayCast2D" parent="Rays" groups=["Player"]]
+[node name="leftWall" type="RayCast2D" parent="Rays" groups=["Player"]]
 position = Vector2(-6, 4)
-target_position = Vector2(-5, 0)
+target_position = Vector2(-10, 0)
 
-[node name="leftRay" type="RayCast2D" parent="Rays" groups=["Player"]]
-position = Vector2(-4, -5)
+[node name="leftBump" type="RayCast2D" parent="Rays" groups=["Player"]]
+position = Vector2(-4, -4)
 target_position = Vector2(0, -9)
 
-[node name="rightRay" type="RayCast2D" parent="Rays" groups=["Player"]]
-position = Vector2(4, -5)
+[node name="rightBump" type="RayCast2D" parent="Rays" groups=["Player"]]
+position = Vector2(4, -4)
 target_position = Vector2(0, -9)
 
-[node name="centralRay" type="RayCast2D" parent="Rays" groups=["Player"]]
+[node name="midBump" type="RayCast2D" parent="Rays" groups=["Player"]]
 position = Vector2(0, -6)
-target_position = Vector2(0, -8)
+target_position = Vector2(0, -7)
 
 [node name="StateMachine" type="Node" parent="." groups=["Player"]]
 script = ExtResource("6_vlsyt")
@@ -506,8 +521,14 @@ script = ExtResource("12_ex2rv")
 [node name="Spawn" type="Node" parent="StateMachine" groups=["Player"]]
 script = ExtResource("13_scs5x")
 
+[node name="Hit" type="Node" parent="StateMachine" groups=["Player"]]
+script = ExtResource("14_fmnic")
+
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
+[connection signal="health_changed" from="stats" to="." method="_on_health_changed"]
+[connection signal="health_changed" from="stats" to="StateMachine" method="_on_health_changed"]
+[connection signal="health_zero" from="stats" to="StateMachine" method="_on_health_zero"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_stats_health_zero"]
 [connection signal="timeout" from="Timers/KickTimer" to="." method="_on_kick_timer_timeout"]
 [connection signal="timeout" from="Timers/JumpBufferTimer" to="." method="_on_jump_buffer_timer_timeout"]

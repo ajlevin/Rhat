@@ -10,6 +10,7 @@ signal damaged(damage: int)
 func _process(delta):
 	for hitbox in hitboxes:
 		# need damage to tick when the player is in contact with enemy
+		# but not when attacks pass through enemies 
 		pass
 
 func _on_area_entered(hitbox: Hitbox) -> void:

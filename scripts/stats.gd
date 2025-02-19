@@ -7,10 +7,16 @@ const KICK_SPEED = -60.0
 const JUMP_VELOCITY = -330.0
 const JUMP_BUFFER_DURATION = 0.1
 const KICK_TIMER_DURATION = 0.15
+const TERMINAL_VELOCITY = 600
 
 signal max_health_changed(diff: int)
 signal health_changed(diff: int)
 signal health_zero
+
+var jumpBuffered : bool = false
+var coyoteTime : bool = false
+var wasOnFloor : bool = true
+var extraJump : bool = true
 
 @export var maxHealth : int = 3 : set = set_max_health, get = get_max_health
 @export var immortal : bool = false : set = set_immortality, get = get_immortality

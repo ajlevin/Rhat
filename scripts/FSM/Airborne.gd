@@ -8,7 +8,7 @@ func enter():
 func exit():
 	pass
 	
-func update(delta : float):
+func update(_delta : float):
 	pass
 	
 func physics_update(delta : float):
@@ -18,8 +18,15 @@ func physics_update(delta : float):
 	if Input.is_action_just_released("jump") && player.velocity.y < -40:
 		player.velocity.y *= 0.1
 
+	# ! the direction.x is lower when up and down are pressed simultaneously !
 	player.velocity.x = direction.x * stats.SPEED
-	player.velocity.y += stats.GRAVITY * delta
+	player.velocity.y = min(
+		player.velocity.y + (stats.GRAVITY * delta), stats.TERMINAL_VELOCITY)
+	
+	if (direction.x > 0):
+		player.sprite.flip_h = false
+	elif (direction.x < 0):
+		player.sprite.flip_h = true
 	
 	state_check(direction)
 
