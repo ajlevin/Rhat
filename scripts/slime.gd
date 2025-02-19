@@ -9,7 +9,7 @@ var damage = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	stats.set_max_health(2)
+	stats.set_max_health(200)
 
 func _on_health_zero():
 	queue_free()

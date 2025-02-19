@@ -1,6 +1,13 @@
 class_name Stats
 extends Node2D
 
+const GRAVITY = 900
+const SPEED = 130.0
+const KICK_SPEED = -60.0
+const JUMP_VELOCITY = -330.0
+const JUMP_BUFFER_DURATION = 0.1
+const KICK_TIMER_DURATION = 0.15
+
 signal max_health_changed(diff: int)
 signal health_changed(diff: int)
 signal health_zero
@@ -44,17 +51,17 @@ func set_temp_immortality(time: float, val: bool):
 		immortalityTimer.start()
 
 func set_health(val: int):	
-	var clamped = max(val, health) if immortal else clamp(val, 0, maxHealth)
+	var clamped = max(maxHealth if val > maxHealth else val, health) \
+		if immortal else clamp(val, 0, maxHealth)
 	
 	if clamped != health:
+		print(get_parent().name + " took " + str(health - val) + " dmg")
 		health_changed.emit(clamped - health)
 		health = clamped
 		
 	if health == 0:
 		health_zero.emit()
 		print(get_parent().name + " hit 0 health")
-		
-	print(get_parent().name + " took val " + str(health - val) + " dmg")
 
 func get_health() -> int:
 	return health

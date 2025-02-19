@@ -1,11 +1,10 @@
 class_name Airborne
-extends State
-
-@onready var player = $"../.."
+extends PlayerState
 
 func enter():
-	pass
-	
+	print("Now Airborne")
+	animation_player.play("RESET")
+
 func exit():
 	pass
 	
@@ -13,7 +12,24 @@ func update(delta : float):
 	pass
 	
 func physics_update(delta : float):
+	var direction : Vector2 = Input.get_vector(
+		"move_left", "move_right", "move_down", "move_up")
 	
+	if Input.is_action_just_released("jump") && player.velocity.y < -40:
+		player.velocity.y *= 0.1
+
+	player.velocity.x = direction.x * stats.SPEED
+	player.velocity.y += stats.GRAVITY * delta
+	
+	state_check(direction)
+
+func into_wall(xDirection : float) -> bool :
+	return (left_wall_ray.is_colliding() and xDirection > 0) or \
+		(right_wall_ray.is_colliding() and xDirection < 0)
+
+func state_check(direction : Vector2):
+	if player.is_on_wall_only() and into_wall(direction.x):
+		transitioned.emit(self, "onwall")
+		
 	if player.is_on_floor():
 		transitioned.emit(self, "idle")
-

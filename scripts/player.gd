@@ -29,21 +29,10 @@ var damage : int = 1
 
 func _ready():
 	actionable = true
-
-func _on_health_zero():
-	die()
 	
 func _on_stats_health_changed(diff):
 	if diff < 0:
 		animation_player.play("hitBlink")
-
-func die():
-	velocity.x = 0
-	actionable = false
-	animation_player.play("death")
-
-func reload_scene():
-	get_tree().reload_current_scene()
 	
 func _on_kick_timer_timeout():
 	extraJump = true
@@ -58,7 +47,8 @@ func _on_coyote_timer_timeout():
 func _process(_delta : float):
 	var anim  = animation_player.current_animation
 	if Input.is_action_just_pressed("damage"):
-		die()
+		pass
+		# die()
 		
 	#if animation_player.current_animation != anim:
 		#print("Current:" + animation_player.current_animation)
@@ -75,7 +65,6 @@ func _physics_process(delta):
 			coyoteTime = true
 			coyote_timer.start(JUMP_BUFFER_DURATION)
 		wasOnFloor = false
-		velocity.y += GRAVITY * delta
 	else:
 		wasOnFloor = true
 		extraJump = true
@@ -96,10 +85,8 @@ func _physics_process(delta):
 			
 		
 		if is_on_floor() or coyoteTime:
-			velocity.y = JUMP_VELOCITY
 			coyoteTime = false
 		elif is_on_wall_only():
-			# this detection may be wack? could use tuning
 			velocity.y = JUMP_VELOCITY
 			actionable = false
 			kick_timer.start(KICK_TIMER_DURATION)
@@ -112,30 +99,18 @@ func _physics_process(delta):
 		else:
 			jumpBuffered = true
 			jump_buffer_timer.start(JUMP_BUFFER_DURATION)
-		# technically doesn't do anything but eh
-		# # action_state = STATE.AIR
 		
 		# no coyote time from jumping -- only from walking off an edge
 		wasOnFloor = false
 		coyoteTime = false
 	
-	if Input.is_action_just_released("jump") && velocity.y < -40:
-		velocity.y *= 0.1
-	
 	# Get the input direction and handle the movement/deceleration.
 	if direction.x:
-		velocity.x = direction.x * SPEED
-		if !animation_player.is_playing():
-			sprite.play("run")
 		if (direction.x > 0):
 			sprite.flip_h = false
 			# attack.scale.x = 1
 		else:
 			sprite.flip_h = true
 			# attack.scale.x = -1
-	else:
-		if !animation_player.is_playing():
-			sprite.play("idle")
-		velocity.x = 0
 	
 	move_and_slide()

@@ -1,10 +1,8 @@
 class_name Attack
-extends State
-
-@onready var player = $"../.."
+extends PlayerState
 
 func enter():
-	pass
+	print("Now Attacking")
 	
 func exit():
 	pass

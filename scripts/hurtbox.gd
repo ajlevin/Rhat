@@ -15,11 +15,12 @@ func _process(delta):
 func _on_area_entered(hitbox: Hitbox) -> void:
 	if hitbox != null:
 		hitboxes.append(hitbox)
-		print("added " + hitbox.get_parent().name)
+		print("entered " + hitbox.get_parent().name)
+		
 		stats.health -= hitbox.damage
 		damaged.emit(hitbox.damage)
 
 func _on_area_exited(hitbox: Hitbox):
 	if hitbox != null:
 		hitboxes.erase(hitbox)
-		print("removed " + hitbox.get_parent().name)
+		print("left " + hitbox.get_parent().name)

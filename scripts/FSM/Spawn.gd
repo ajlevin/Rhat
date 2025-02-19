@@ -1,10 +1,8 @@
 class_name Spawn
-extends State
-
-@onready var player = $"../.."
+extends PlayerState
 
 func enter():
-	pass
+	print("Now Spawning")
 	
 func exit():
 	pass
@@ -13,5 +11,5 @@ func update(delta : float):
 	pass
 	
 func physics_update(delta : float):
-	pass
+	transitioned.emit(self, "idle")
 

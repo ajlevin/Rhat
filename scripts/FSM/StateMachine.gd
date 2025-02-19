@@ -1,28 +1,37 @@
 class_name StateMachine
 extends Node
 
-@export var initialState : State
-var curState : State
+@export var initialState : PlayerState
+var curState : PlayerState
 var states : Dictionary = {}
 
+### Collect all existing state and set initial state
 func _ready():
+	# Collects all states that exist as children within the tree
 	for child in get_children():
-		if child is State:
+		if child is PlayerState:
 			states[child.name.to_lower()] = child
 			child.transitioned.connect(on_child_transition)
 			
+	# uses the initialState if exists, otherwises defaults to "spawn"
 	if initialState:
 		initialState.enter()
 		curState = initialState
+	else:
+		states["spawn"].enter()
+		curState = states["spawn"]
 
+### Updates current state
 func _process(delta):
 	if curState:
 		curState.update(delta)
 		
+### Updates current state's physics
 func _physics_process(delta):
 	if curState:
 		curState.physics_update(delta)
 
+### Handles transitions from one state to the next
 func on_child_transition(state, newStateName):
 	# reached if an inactive state manages to emit a signal >:(
 	if state != curState:
@@ -32,9 +41,16 @@ func on_child_transition(state, newStateName):
 	# reached if the requested state doesn't exist (check state spelling)
 	if !newState:
 		return
-		
+	
+	# handle current state exit
 	if curState:
 		curState.exit()
 		
+	# handle new state entry and update current state
 	newState.enter()
 	curState = newState
+
+### Waits for player death signal and switches to dead" state
+func _on_health_zero():
+	print("Got death signal")
+	on_child_transition(curState, "dead")
