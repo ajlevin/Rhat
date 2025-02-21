@@ -3,13 +3,25 @@ extends PlayerState
 
 func enter():
 	print("Now Spawning")
+	stats.actionable = false
 	
 func exit():
-	pass
+	stats.actionable = true
 	
-func update(delta : float):
+func update(_delta : float):
 	pass
 	
 func physics_update(delta : float):
-	transitioned.emit(self, "idle")
+	if !player.is_on_floor():
+		player.velocity.y = min(
+			player.velocity.y + (stats.GRAVITY * delta), 
+			stats.TERMINAL_VELOCITY)
+			
+	state_check()
+	
+func state_check():
+	if player.is_on_floor():
+		transitioned.emit(self, "idle")
+	else:
+		transitioned.emit(self, "airborne")
 

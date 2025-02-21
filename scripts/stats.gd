@@ -6,6 +6,7 @@ const SPEED = 130.0
 const KICK_SPEED = -60.0
 const JUMP_VELOCITY = -330.0
 const JUMP_BUFFER_DURATION = 0.1
+const COYOTE_TIME_DURATION = 0.08
 const KICK_TIMER_DURATION = 0.15
 const TERMINAL_VELOCITY = 600
 
@@ -13,10 +14,11 @@ signal max_health_changed(diff: int)
 signal health_changed(diff: int)
 signal health_zero
 
-var jumpBuffered : bool = false
-var coyoteTime : bool = false
-var wasOnFloor : bool = true
-var extraJump : bool = true
+@onready var jumpBuffered : bool = false
+@onready var coyoteTime : bool = false
+@onready var wasOnFloor : bool = true
+@onready var extraJump : bool = true
+@export var actionable : bool = true
 
 @export var maxHealth : int = 3 : set = set_max_health, get = get_max_health
 @export var immortal : bool = false : set = set_immortality, get = get_immortality
@@ -49,12 +51,12 @@ func set_temp_immortality(time: float, val: bool):
 		immortalityTimer.one_shot = true
 		add_child(immortalityTimer)
 		
-		if immortalityTimer.timeout.is_connected(set_immortality):
-			immortalityTimer.timeout.disconnect(set_immortality)
-		immortalityTimer.set_wait_time(time)
-		immortalityTimer.timeout.connect(set_immortality.bind(!val))
-		immortal = val
-		immortalityTimer.start()
+	if immortalityTimer.timeout.is_connected(set_immortality):
+		immortalityTimer.timeout.disconnect(set_immortality)
+	immortalityTimer.set_wait_time(time)
+	immortalityTimer.timeout.connect(set_immortality.bind(!val))
+	immortal = val
+	immortalityTimer.start()
 
 func set_health(val: int):	
 	var clamped = max(maxHealth if val > maxHealth else val, health) \

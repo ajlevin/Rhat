@@ -5,6 +5,7 @@ signal transitioned
 
 @onready var player : Player = $"../.."
 @onready var stats : Stats = $"../../stats"
+@onready var animated_sprite = $"../../AnimatedSprite"
 @onready var animation_player = $"../../AnimationPlayer"
 
 @onready var right_wall_ray : RayCast2D = $"../../Rays/rightWall"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://cahhif8t6eo03"]
+[gd_scene load_steps=60 format=3 uid="uid://cahhif8t6eo03"]
 
 [ext_resource type="Texture2D" uid="uid://baaiww6rg2ogv" path="res://reference/knight.png" id="1_gpfj7"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_ygmf4"]
@@ -14,7 +14,6 @@
 [ext_resource type="Script" path="res://scripts/FSM/Dead.gd" id="12_ex2rv"]
 [ext_resource type="Script" path="res://scripts/FSM/Spawn.gd" id="13_scs5x"]
 [ext_resource type="Script" path="res://scripts/FSM/Hit.gd" id="14_fmnic"]
-[ext_resource type="Script" path="res://scripts/FSM/Jump.gd" id="15_t8mmb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0oha4"]
 atlas = ExtResource("1_gpfj7")
@@ -526,9 +525,6 @@ script = ExtResource("13_scs5x")
 [node name="Hit" type="Node" parent="StateMachine" groups=["Player"]]
 script = ExtResource("14_fmnic")
 
-[node name="Jump" type="Node" parent="StateMachine" groups=["Player"]]
-script = ExtResource("15_t8mmb")
-
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
 [connection signal="health_changed" from="stats" to="." method="_on_health_changed"]
@@ -536,8 +532,5 @@ script = ExtResource("15_t8mmb")
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_health_zero"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_stats_health_zero"]
 [connection signal="timeout" from="Timers/KickTimer" to="." method="_on_kick_timer_timeout"]
-[connection signal="timeout" from="Timers/KickTimer" to="StateMachine/OnWall" method="_on_kick_timer_timeout"]
 [connection signal="timeout" from="Timers/JumpBufferTimer" to="." method="_on_jump_buffer_timer_timeout"]
-[connection signal="timeout" from="Timers/JumpBufferTimer" to="StateMachine/Airborne" method="_on_jump_buffer_timer_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
-[connection signal="timeout" from="Timers/CoyoteTimer" to="StateMachine/Airborne" method="_on_coyote_timer_timeout"]

@@ -2,7 +2,6 @@ class_name Hurtbox
 extends Area2D
 
 signal damaged(damage: int)
-## @export var stats: Stats ??????
 ## !! stats must always be on the same level as the hurtbox/hitbox !!
 @onready var stats : Stats = $"../stats"
 @export var hitboxes : Array[Hitbox] = []

@@ -5,6 +5,10 @@ func enter():
 	print("Now Idle")
 	player.velocity.x = 0
 	player.velocity.y = 0
+	stats.wasOnFloor = true
+	stats.coyoteTime = false
+
+	stats.extraJump = true
 	animation_player.play("RESET")
 	
 func exit():
@@ -24,9 +28,7 @@ func state_check(direction : Vector2):
 		transitioned.emit(self, "run")
 	
 	if Input.is_action_just_pressed("jump"):
-		player.velocity.y = stats.JUMP_VELOCITY
-		transitioned.emit(self, "airborne")
-	
-	if Input.is_action_just_pressed("jump") or \
-		(player.is_on_floor() and player.jumpBuffered):
+		transitioned.emit(self, "jump")
+
+	if !player.is_on_floor():
 		transitioned.emit(self, "airborne")
