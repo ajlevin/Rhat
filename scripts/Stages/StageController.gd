@@ -1,52 +1,51 @@
 class_name StageController
 extends Node
 
-@export var initialStage : Zone
-@export var curStage : Zone
-var stages : Dictionary = {}
+@export var initialZone : Zone
+@export var curZone : Zone
+var zones : Dictionary = {}
 
+### Collect all existing zones and set initial zone
 func _ready():
-	# Collects all states that exist as children within the tree
+	# Collects all zones that exist as children within the tree
 	for child in get_children():
 		if child is Zone:
-			pass
-			# stages[child.name.to_lower()] = child
-			# child.stage_transitioned.connect(on_stage_transition)
+			zones[child.name.to_lower()] = child
+			child.zone_transitioned.connect(on_zone_transition)
 			
-			
-	# uses the initialState if exists, otherwises defaults to "spawn"
-	#if initialStage:
-		#initialStage.enter()
-		#curStage = initialStage
-	#else:
-		#stages["intro"].enter()
-		#curStage = stages["intro"]
+	# uses the initialZone if exists, otherwises defaults to "intro"
+	if initialZone:
+		initialZone.enter()
+		curZone = initialZone
+	else:
+		zones["intro"].enter()
+		curZone = zones["intro"]
 	
-### Updates current stage
+### Updates current zone
 func _process(delta):
-	if curStage:
-		curStage.update(delta)
+	if curZone:
+		curZone.update(delta)
 		
-### Updates current stage's physics
+### Updates current zones's physics
 func _physics_process(delta):
-	if curStage:
-		curStage.physics_update(delta)
+	if curZone:
+		curZone.physics_update(delta)
 	
-### Handles transitions from one stage to the next
-func on_stage_transition(stage, newStageName):
-	# reached if an inactive stage manages to emit a signal >:(
-	if stage != curStage:
+### Handles transitions from one zone to the next
+func on_zone_transition(zone, newZoneName):
+	# reached if an inactive zone manages to emit a signal >:(
+	if zone != curZone:
 		return
 	
-	var newStage = stages.get(newStageName.to_lower())
-	# reached if the requested stage doesn't exist (check stage spelling)
-	if !newStage:
+	var newZone = zones.get(newZoneName.to_lower())
+	# reached if the requested zone doesn't exist (check zone spelling)
+	if !newZone:
 		return
 	
-	# handle current stage exit
-	if curStage:
-		curStage.exit()
+	# handle current zone exit
+	if curZone:
+		curZone.exit()
 		
-	# handle new stage entry and update current stage
-	newStage.enter()
-	curStage = newStage
+	# handle new zone entry and update current zone
+	newZone.enter()
+	curZone = newZone

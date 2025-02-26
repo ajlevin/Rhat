@@ -34,14 +34,15 @@ func physics_update(delta : float):
 		coyote_timer.start(stats.COYOTE_TIME_DURATION)
 		stats.wasOnFloor = false
 	
-	if Input.is_action_just_pressed("jump") and !player.is_on_floor():
+	if Input.is_action_just_pressed("jump") and \
+		!(player.is_on_floor() or stats.extraJump):
 		stats.jumpBuffered = true
 		jump_buffer_timer.start(stats.JUMP_BUFFER_DURATION)
-	else:
-		player.velocity.y = min(
-			player.velocity.y + (stats.GRAVITY * delta), 
-			stats.TERMINAL_VELOCITY)
 	
+	player.velocity.y = min(
+		player.velocity.y + (stats.GRAVITY * delta), 
+		stats.TERMINAL_VELOCITY)
+
 	# move somewhere else more general ??
 	if (direction.x > 0):
 		animated_sprite.flip_h = false
@@ -74,7 +75,7 @@ func state_check(direction : Vector2):
 		
 	if Input.is_action_just_pressed("jump") and \
 		(stats.coyoteTime or stats.extraJump):
-			stats.coyoteTime = false
-			if stats.extraJump: 
+			if !stats.coyoteTime: 
 				stats.extraJump = false
+			stats.coyoteTime = false
 			transitioned.emit(self, "jump")

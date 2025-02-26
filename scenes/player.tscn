@@ -1,9 +1,9 @@
 [gd_scene load_steps=61 format=3 uid="uid://cahhif8t6eo03"]
 
 [ext_resource type="Texture2D" uid="uid://baaiww6rg2ogv" path="res://reference/knight.png" id="1_gpfj7"]
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_ygmf4"]
-[ext_resource type="Script" path="res://scripts/stats.gd" id="2_yas6q"]
-[ext_resource type="PackedScene" uid="uid://nyc3ohxqbouq" path="res://scenes/hurtbox.tscn" id="3_3jhed"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_ygmf4"]
+[ext_resource type="Script" path="res://scripts/Universal/Stats.gd" id="2_yas6q"]
+[ext_resource type="PackedScene" uid="uid://nyc3ohxqbouq" path="res://scenes/Universal/hurtbox.tscn" id="3_3jhed"]
 [ext_resource type="PackedScene" uid="uid://qn6ssj8nvlla" path="res://scenes/entity.tscn" id="4_ordkh"]
 [ext_resource type="Script" path="res://scripts/FSM/StateMachine.gd" id="6_vlsyt"]
 [ext_resource type="Script" path="res://scripts/FSM/Idle.gd" id="7_qyw7l"]
@@ -344,24 +344,6 @@ tracks/1/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_pyhgf"]
-resource_name = "Run"
-length = 0.001
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [&"run", 1.0, false],
-"method": &"play"
-}]
-}
-
 [sub_resource type="Animation" id="Animation_xo4vd"]
 resource_name = "hitBlink"
 length = 1.3
@@ -405,6 +387,24 @@ tracks/2/keys = {
 "values": [{
 "args": [],
 "method": &"state_check"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_pyhgf"]
+resource_name = "Run"
+length = 0.001
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"run", 1.0, false],
+"method": &"play"
 }]
 }
 
@@ -464,6 +464,7 @@ shape = SubResource("CapsuleShape2D_i2cqu")
 light_mask = 2
 position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_paou6")
+script = null
 
 [node name="Timers" type="Node" parent="." groups=["Player"]]
 
@@ -530,8 +531,8 @@ script = ExtResource("14_fmnic")
 script = ExtResource("15_t8mmb")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
 [connection signal="health_changed" from="stats" to="." method="_on_health_changed"]
+[connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
 [connection signal="health_changed" from="stats" to="StateMachine" method="_on_health_changed"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_health_zero"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_stats_health_zero"]

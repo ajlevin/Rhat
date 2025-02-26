@@ -5,7 +5,7 @@ extends Node
 var curState : PlayerState
 var states : Dictionary = {}
 
-### Collect all existing state and set initial state
+### Collect all existing states and set initial state
 func _ready():
 	# Collects all states that exist as children within the tree
 	for child in get_children():

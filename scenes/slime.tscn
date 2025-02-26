@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=3 uid="uid://hybhexve5a6r"]
 
-[ext_resource type="Script" path="res://scripts/slime.gd" id="1_83emx"]
+[ext_resource type="Script" path="res://scripts/Universal/Slime.gd" id="1_83emx"]
 [ext_resource type="Texture2D" uid="uid://dspiolniequss" path="res://reference/slime_green.png" id="1_ixhr0"]
-[ext_resource type="Script" path="res://scripts/stats.gd" id="2_1ro4y"]
-[ext_resource type="PackedScene" uid="uid://b0jcpjjsmdkag" path="res://scenes/hitbox.tscn" id="2_48u3d"]
+[ext_resource type="Script" path="res://scripts/Universal/Stats.gd" id="2_1ro4y"]
+[ext_resource type="PackedScene" uid="uid://b0jcpjjsmdkag" path="res://scenes/Universal/hitbox.tscn" id="2_48u3d"]
 [ext_resource type="PackedScene" uid="uid://qn6ssj8nvlla" path="res://scenes/entity.tscn" id="4_eb1cj"]
-[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="6_n4xmk"]
+[ext_resource type="Script" path="res://scripts/Universal/Hurtbox.gd" id="6_n4xmk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_52dwr"]
 atlas = ExtResource("1_ixhr0")

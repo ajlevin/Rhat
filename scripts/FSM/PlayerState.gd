@@ -8,6 +8,7 @@ signal transitioned
 @onready var animated_sprite = $"../../AnimatedSprite"
 @onready var animation_player = $"../../AnimationPlayer"
 
+# Player rays for wall and ceiling detection
 @onready var right_wall_ray : RayCast2D = $"../../Rays/rightWall"
 @onready var left_wall_ray : RayCast2D = $"../../Rays/leftWall"
 @onready var left_ray : RayCast2D = $"../../Rays/leftBump"

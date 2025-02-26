@@ -7,10 +7,11 @@ var direction = -1
 @onready var stats = $stats
 var damage = 1
 
-# Called when the node enters the scene tree for the first time.
+### Set slime max health to 200
 func _ready():
 	stats.set_max_health(200)
 
+### On death, remove from tree
 func _on_health_zero():
 	queue_free()
 

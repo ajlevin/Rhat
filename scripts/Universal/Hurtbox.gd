@@ -6,6 +6,10 @@ signal damaged(damage: int)
 @onready var stats : Stats = $"../stats"
 @export var hitboxes : Array[Hitbox] = []
 
+#######################################################################
+###! Documentation will be updated once damage ticks actually work !###
+#######################################################################
+
 func _process(delta):
 	for hitbox in hitboxes:
 		# need damage to tick when the player is in contact with enemy

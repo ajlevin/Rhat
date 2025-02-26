@@ -15,6 +15,7 @@ func exit():
 func update(_delta : float):
 	pass
 	
+### Gets directional input and adjusts horizantal velocity accordingly
 func physics_update(_delta : float):
 	var direction = Input.get_vector(
 		"move_left", "move_right", "move_down", "move_up")
@@ -28,6 +29,7 @@ func physics_update(_delta : float):
 		animated_sprite.flip_h = true
 	state_check(direction)
 	
+### Checks if the player has left the ground or stopped moving
 func state_check(direction : Vector2):
 	if !direction.x:
 		transitioned.emit(self, "idle")
