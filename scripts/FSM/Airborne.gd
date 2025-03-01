@@ -6,7 +6,9 @@ extends PlayerState
 
 func enter():
 	print("Now Airborne")
-	animation_player.play("RESET")
+	
+	if !animation_player.current_animation == "iFrames":
+		animation_player.play("RESET")
 
 func exit():
 	pass
@@ -58,22 +60,22 @@ func _on_coyote_timer_timeout():
 	stats.coyoteTime = false 
 
 func into_wall(xDirection : float) -> bool :
-	return (left_wall_ray.is_colliding() and xDirection > 0) or \
-		(right_wall_ray.is_colliding() and xDirection < 0)
+	return (left_wall_ray.is_colliding() and xDirection < 0) or \
+		(right_wall_ray.is_colliding() and xDirection > 0)
 
 func state_check(direction : Vector2):
 	if player.is_on_wall_only() and into_wall(direction.x):
 		transitioned.emit(self, "onwall")
-		
-	if player.is_on_floor():
+	elif player.is_on_floor():
 		if stats.jumpBuffered:
 			transitioned.emit(self, "jump")
 		elif direction.x != 0:
 			transitioned.emit(self, "run")
 		else:
 			transitioned.emit(self, "idle")
-		
-	if Input.is_action_just_pressed("jump") and \
+	elif Input.is_action_just_pressed("attack"):
+		transitioned.emit(self, "attack")
+	elif Input.is_action_just_pressed("jump") and \
 		(stats.coyoteTime or stats.extraJump):
 			if !stats.coyoteTime: 
 				stats.extraJump = false

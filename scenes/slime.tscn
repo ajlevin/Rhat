@@ -1,10 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://hybhexve5a6r"]
+[gd_scene load_steps=13 format=3 uid="uid://hybhexve5a6r"]
 
-[ext_resource type="Script" path="res://scripts/Universal/Slime.gd" id="1_83emx"]
+[ext_resource type="Script" path="res://scripts/Slime.gd" id="1_83emx"]
 [ext_resource type="Texture2D" uid="uid://dspiolniequss" path="res://reference/slime_green.png" id="1_ixhr0"]
-[ext_resource type="Script" path="res://scripts/Universal/Stats.gd" id="2_1ro4y"]
+[ext_resource type="Script" path="res://scripts/PlayerStats.gd" id="2_1ro4y"]
 [ext_resource type="PackedScene" uid="uid://b0jcpjjsmdkag" path="res://scenes/Universal/hitbox.tscn" id="2_48u3d"]
-[ext_resource type="PackedScene" uid="uid://qn6ssj8nvlla" path="res://scenes/entity.tscn" id="4_eb1cj"]
 [ext_resource type="Script" path="res://scripts/Universal/Hurtbox.gd" id="6_n4xmk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_52dwr"]
@@ -46,7 +45,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sgy4q"]
 size = Vector2(10, 12)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2jn3s"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mn0lw"]
 size = Vector2(10, 12)
 
 [node name="Slime" type="RigidBody2D"]
@@ -69,10 +68,6 @@ collision_mask = 32
 position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_sgy4q")
 
-[node name="collision" parent="." instance=ExtResource("4_eb1cj")]
-position = Vector2(0, 6)
-shape = SubResource("RectangleShape2D_2jn3s")
-
 [node name="hurtbox" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 16
@@ -81,5 +76,9 @@ script = ExtResource("6_n4xmk")
 [node name="box" type="CollisionShape2D" parent="hurtbox"]
 position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_sgy4q")
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_mn0lw")
 
 [connection signal="health_zero" from="stats" to="." method="_on_health_zero"]

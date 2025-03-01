@@ -9,18 +9,18 @@ var wallDirection : float
 #####################################################
 
 ### Sets which direction the wall being latched to is
-func enter():
+func enter() -> void:
 	print("Now OnWall")
 	wallDirection = 1 if left_wall_ray.is_colliding() else -1
 	
-func exit():
+func exit() -> void:
 	pass
 	
-func update(_delta : float):
+func update(_delta : float) -> void:
 	pass
 	
 ### Gets directional input and holds the player to the wall
-func physics_update(_delta : float):
+func physics_update(_delta : float) -> void:
 	var direction : Vector2 = Input.get_vector(
 		"move_left", "move_right", "move_down", "move_up")
 	
@@ -35,16 +35,16 @@ func physics_update(_delta : float):
 
 ### Checks if the player is holding into the wall
 func into_wall(xDirection : float) -> bool :
-	return (left_wall_ray.is_colliding() and xDirection > 0) or \
-		(right_wall_ray.is_colliding() and xDirection < 0)
+	return (left_wall_ray.is_colliding() and xDirection < 0) or \
+		(right_wall_ray.is_colliding() and xDirection > 0)
 
 ### Renables player action and refreshes the dobule jump
-func _on_kick_timer_timeout():
+func _on_kick_timer_timeout() -> void:
 	stats.extraJump = true
 	stats.actionable = true
 
 ### Checks if the player has left the wall for any reason
-func state_check(direction : Vector2):
+func state_check(direction : Vector2) -> void:
 	if player.is_on_floor():
 		transitioned.emit(self, "idle")
 	

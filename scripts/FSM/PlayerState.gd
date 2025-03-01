@@ -4,7 +4,7 @@ extends Node
 signal transitioned
 
 @onready var player : Player = $"../.."
-@onready var stats : Stats = $"../../stats"
+@onready var stats : PlayerStats = $"../../stats"
 @onready var animated_sprite = $"../../AnimatedSprite"
 @onready var animation_player = $"../../AnimationPlayer"
 
@@ -16,17 +16,17 @@ signal transitioned
 @onready var central_ray : RayCast2D = $"../../Rays/midBump"
 
 ### Handles state entry
-func enter():
+func enter() -> void:
 	pass
 	
 ### Handles state exit
-func exit():
+func exit() -> void:
 	pass
 	
 ### Updates state (non-physics) per tick
-func update(_delta : float):
+func update(_delta : float) -> void:
 	pass
 	
 ### Updates state's physics per tick
-func physics_update(_delta : float):
+func physics_update(_delta : float) -> void:
 	pass

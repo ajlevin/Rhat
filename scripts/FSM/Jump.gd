@@ -4,9 +4,11 @@ extends PlayerState
 ### Updates floor tracking for coyote time and adds jump velocity
 func enter():
 	print("Now Jumping")
-	animation_player.play("RESET")
 	stats.wasOnFloor = false
 	player.velocity.y = stats.JUMP_VELOCITY
+	
+	if !animation_player.current_animation == "iFrames":
+		animation_player.play("RESET")
 	
 ### Cuts jump short should the button be released before the apex
 func exit():
@@ -42,3 +44,5 @@ func state_check(direction : Vector2):
 			transitioned.emit(self, "idle")
 	elif Input.is_action_just_released("jump"):
 		transitioned.emit(self, "airborne")
+	elif Input.is_action_just_pressed("attack"):
+		transitioned.emit(self, "attack")

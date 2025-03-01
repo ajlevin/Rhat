@@ -3,7 +3,7 @@ extends Area2D
 
 signal damaged(damage: int)
 ## !! stats must always be on the same level as the hurtbox/hitbox !!
-@onready var stats : Stats = $"../stats"
+@onready var stats : PlayerStats = $"../stats"
 @export var hitboxes : Array[Hitbox] = []
 
 #######################################################################

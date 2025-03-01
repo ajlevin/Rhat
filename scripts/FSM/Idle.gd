@@ -10,7 +10,8 @@ func enter():
 	stats.coyoteTime = false
 
 	stats.extraJump = true
-	animation_player.play("RESET")
+	if !animation_player.current_animation == "iFrames":
+		animation_player.play("RESET")
 	
 func exit():
 	pass
@@ -29,9 +30,11 @@ func physics_update(delta : float):
 func state_check(direction : Vector2):
 	if direction.x != 0:
 		transitioned.emit(self, "run")
-	
-	if Input.is_action_just_pressed("jump"):
+	elif Input.is_action_just_pressed("jump"):
 		transitioned.emit(self, "jump")
-
-	if !player.is_on_floor():
+	elif !player.is_on_floor():
 		transitioned.emit(self, "airborne")
+	elif Input.is_action_just_pressed("attack"):
+		transitioned.emit(self, "attack")
+		
+	
