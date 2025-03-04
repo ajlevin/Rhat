@@ -5,6 +5,7 @@ extends PlayerState
 func enter():
 	print("Now Dead")
 	
+	stats.actionable = false
 	player.velocity.x = 0
 	animation_player.play("death")
 	

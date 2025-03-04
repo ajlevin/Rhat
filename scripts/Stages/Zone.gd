@@ -4,7 +4,7 @@ extends Node2D
 signal zone_transitioned
 
 # Zone killzone hitbox
-@onready var hitbox = $hitbox
+@onready var killzone = $killzone
 
 ### Handles zone entry
 func enter():

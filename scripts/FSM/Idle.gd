@@ -28,13 +28,17 @@ func physics_update(delta : float):
 		
 ### Checks to see if the player has done literally anything
 func state_check(direction : Vector2):
-	if direction.x != 0:
+	if direction.x != 0 and stats.get_actionable():
 		transitioned.emit(self, "run")
-	elif Input.is_action_just_pressed("jump"):
+	elif Input.is_action_just_pressed("dash") and stats.get_dash() and stats.get_actionable():
+		transitioned.emit(self, "dash")
+	elif Input.is_action_just_pressed("jump") and stats.get_actionable():
 		transitioned.emit(self, "jump")
 	elif !player.is_on_floor():
 		transitioned.emit(self, "airborne")
-	elif Input.is_action_just_pressed("attack"):
-		transitioned.emit(self, "attack")
+	elif Input.is_action_just_pressed("attack") and stats.get_actionable():
+		transitioned.emit(self, "melee")
+	elif Input.is_action_just_pressed("special") and stats.get_actionable():
+		transitioned.emit(self, "blast")
 		
 	

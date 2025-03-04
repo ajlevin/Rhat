@@ -33,6 +33,8 @@ func state_check():
 	
 	if !player.is_on_floor():
 		transitioned.emit(self, "airborne")
+	elif Input.is_action_just_pressed("dash") and stats.dash:
+		transitioned.emit(self, "dash")
 	elif direction.x != 0:
 		transitioned.emit(self, "run")
 	else:

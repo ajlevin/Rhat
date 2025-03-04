@@ -18,8 +18,8 @@ func _ready():
 		initialZone.enter()
 		curZone = initialZone
 	else:
-		zones["intro"].enter()
-		curZone = zones["intro"]
+		zones["identity"].enter()
+		curZone = zones["identity"]
 	
 ### Updates current zone
 func _process(delta):

@@ -19,4 +19,4 @@ func update(_delta : float):
 ### TESTING -- USED TO SWAP BETWEEN REALMS
 func physics_update(_delta : float):
 	if Input.is_action_just_pressed("damage"):
-		zone_transitioned.emit(self, "nem")
+		zone_transitioned.emit(self, "hate")

@@ -18,25 +18,28 @@ func update(_delta : float):
 	
 func physics_update(delta : float):
 	var direction : Vector2 = Input.get_vector(
-		"move_left", "move_right", "move_down", "move_up")
+		"move_left", "move_right", "move_down", "move_up") \
+		if stats.actionable \
+		else Vector2.ZERO
 	
 	# bump player if nearly colliding with ceiling
-	#if right_ray.is_colliding() and \
-		#!(central_ray.is_colliding() or left_ray.is_colliding()):
-			#player.position.x -= 5
-	#elif left_ray.is_colliding() and \
-		#!(central_ray.is_colliding() or right_ray.is_colliding()):
-			#player.position.x += 5
+	if right_ray.is_colliding() and \
+		!(central_ray.is_colliding() or left_ray.is_colliding()):
+			player.position.x -= 5
+	elif left_ray.is_colliding() and \
+		!(central_ray.is_colliding() or right_ray.is_colliding()):
+			player.position.x += 5
 	
 	# ! the direction.x is lower when up and down are pressed simultaneously !
-	player.velocity.x = direction.x * stats.SPEED
+	if stats.actionable:
+		player.velocity.x = direction.x * stats.SPEED
 	
 	if stats.wasOnFloor:
 		stats.coyoteTime = true
 		coyote_timer.start(stats.COYOTE_TIME_DURATION)
 		stats.wasOnFloor = false
 	
-	if Input.is_action_just_pressed("jump") and \
+	if Input.is_action_just_pressed("jump") and stats.actionable and \
 		!(player.is_on_floor() or stats.extraJump):
 		stats.jumpBuffered = true
 		jump_buffer_timer.start(stats.JUMP_BUFFER_DURATION)
@@ -64,19 +67,23 @@ func into_wall(xDirection : float) -> bool :
 		(right_wall_ray.is_colliding() and xDirection > 0)
 
 func state_check(direction : Vector2):
-	if player.is_on_wall_only() and into_wall(direction.x):
-		transitioned.emit(self, "onwall")
-	elif player.is_on_floor():
+	if player.is_on_floor():
 		if stats.jumpBuffered:
 			transitioned.emit(self, "jump")
-		elif direction.x != 0:
+		elif direction.x != 0 and stats.get_actionable():
 			transitioned.emit(self, "run")
 		else:
 			transitioned.emit(self, "idle")
-	elif Input.is_action_just_pressed("attack"):
-		transitioned.emit(self, "attack")
+	elif into_wall(direction.x) and stats.get_actionable():
+		transitioned.emit(self, "onwall")
+	elif Input.is_action_just_pressed("dash") and stats.get_dash() and stats.get_actionable():
+		transitioned.emit(self, "dash")
+	elif Input.is_action_just_pressed("attack") and stats.get_actionable():
+		transitioned.emit(self, "melee")
+	elif Input.is_action_just_pressed("special") and stats.get_actionable():
+		transitioned.emit(self, "blast")
 	elif Input.is_action_just_pressed("jump") and \
-		(stats.coyoteTime or stats.extraJump):
+		(stats.coyoteTime or stats.extraJump) and stats.get_actionable():
 			if !stats.coyoteTime: 
 				stats.extraJump = false
 			stats.coyoteTime = false
