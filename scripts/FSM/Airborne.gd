@@ -1,22 +1,22 @@
 class_name Airborne
 extends PlayerState
 
-@onready var jump_buffer_timer = $"../../Timers/JumpBufferTimer"
-@onready var coyote_timer = $"../../Timers/CoyoteTimer"
+@onready var jump_buffer_timer : Timer = $"../../Timers/JumpBufferTimer"
+@onready var coyote_timer : Timer = $"../../Timers/CoyoteTimer"
 
-func enter():
+func enter() -> void:
 	print("Now Airborne")
 	
 	if !animation_player.current_animation == "iFrames":
 		animation_player.play("RESET")
 
-func exit():
+func exit() -> void:
 	pass
 	
-func update(_delta : float):
+func update(_delta : float) -> void:
 	pass
 	
-func physics_update(delta : float):
+func physics_update(delta : float) -> void:
 	var direction : Vector2 = Input.get_vector(
 		"move_left", "move_right", "move_down", "move_up") \
 		if stats.actionable \
@@ -56,17 +56,17 @@ func physics_update(delta : float):
 	
 	state_check(direction)
 
-func _on_jump_buffer_timer_timeout():
+func _on_jump_buffer_timer_timeout() -> void:
 	stats.jumpBuffered = false
 
-func _on_coyote_timer_timeout():
+func _on_coyote_timer_timeout() -> void:
 	stats.coyoteTime = false 
 
 func into_wall(xDirection : float) -> bool :
 	return (left_wall_ray.is_colliding() and xDirection < 0) or \
 		(right_wall_ray.is_colliding() and xDirection > 0)
 
-func state_check(direction : Vector2):
+func state_check(direction : Vector2) -> void:
 	if player.is_on_floor():
 		if stats.jumpBuffered:
 			transitioned.emit(self, "jump")

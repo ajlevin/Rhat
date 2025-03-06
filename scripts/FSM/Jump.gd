@@ -4,7 +4,7 @@ extends PlayerState
 @onready var kick_timer = $"../../Timers/KickTimer"
 
 ### Updates floor tracking for coyote time and adds jump velocity
-func enter():
+func enter() -> void:
 	print("Now Jumping")
 	stats.wasOnFloor = false
 	
@@ -20,15 +20,15 @@ func enter():
 		animation_player.play("RESET")
 	
 ### Cuts jump short should the button be released before the apex
-func exit():
+func exit() -> void:
 	if player.velocity.y < -40:
 		player.velocity.y *= 0.1
 	
-func update(_delta : float):
+func update(_delta : float) -> void:
 	pass
 	
 ### Collects directional input and updates the player's velocities to match
-func physics_update(delta : float):
+func physics_update(delta : float) -> void:
 	var direction : Vector2 = Input.get_vector(
 		"move_left", "move_right", "move_down", "move_up") \
 		if stats.actionable \
@@ -54,7 +54,7 @@ func _on_kick_timer_timeout() -> void:
 	stats.actionable = true
 
 ### Checks if the jump has ended, either by landing or the input being released
-func state_check(direction : Vector2):
+func state_check(direction : Vector2) -> void:
 	if player.is_on_floor():
 		if direction.x != 0 and stats.get_actionable():
 			transitioned.emit(self, "run")

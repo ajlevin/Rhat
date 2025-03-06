@@ -2,19 +2,19 @@ class_name Spawn
 extends PlayerState
 
 ### Disables player action during spawn sequence
-func enter():
+func enter() -> void:
 	print("Now Spawning")
 	stats.actionable = false
 	
 ### Enables player action on spawn completion
-func exit():
+func exit() -> void:
 	stats.actionable = true
 	
-func update(_delta : float):
+func update(_delta : float) -> void:
 	pass
 	
 ### Accelerates the player with gravity if not grounded
-func physics_update(delta : float):
+func physics_update(delta : float) -> void:
 	if !player.is_on_floor():
 		player.velocity.y = min(
 			player.velocity.y + (stats.GRAVITY * delta), 
@@ -23,7 +23,7 @@ func physics_update(delta : float):
 	state_check()
 
 ### Checks which state the player belongs to on exit
-func state_check():
+func state_check() -> void:
 	if player.is_on_floor():
 		transitioned.emit(self, "idle")
 	else:

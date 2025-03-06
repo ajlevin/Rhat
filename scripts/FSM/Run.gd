@@ -1,7 +1,7 @@
 class_name Run
 extends PlayerState
 
-func enter():
+func enter() -> void:
 	print("Now Running")
 	player.velocity.y = 0
 	stats.extraJump = true
@@ -12,14 +12,14 @@ func enter():
 	if !animation_player.current_animation == "iFrames":
 		animation_player.play("run")
 	
-func exit():
+func exit() -> void:
 	pass
 	
-func update(_delta : float):
+func update(_delta : float) -> void:
 	pass
 	
 ### Gets directional input and adjusts horizantal velocity accordingly
-func physics_update(_delta : float):
+func physics_update(_delta : float) -> void:
 	var direction : Vector2 = Input.get_vector(
 		"move_left", "move_right", "move_down", "move_up") \
 		if stats.actionable \
@@ -35,7 +35,7 @@ func physics_update(_delta : float):
 	state_check(direction)
 	
 ### Checks if the player has left the ground or stopped moving
-func state_check(direction : Vector2):
+func state_check(direction : Vector2) -> void:
 	if !direction.x:
 		transitioned.emit(self, "idle")
 	elif Input.is_action_just_pressed("dash") and stats.get_dash() and stats.get_actionable():

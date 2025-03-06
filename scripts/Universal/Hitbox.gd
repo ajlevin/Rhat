@@ -5,7 +5,7 @@ extends Area2D
 @onready var shape : CollisionShape2D = get_children()[0]
 
 ### Sets the hitbox's damage
-func set_damage(value: int):
+func set_damage(value: int) -> void:
 	damage = value
 	
 ### Returns the hitbox's damage

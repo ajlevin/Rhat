@@ -7,17 +7,20 @@ signal zone_transitioned
 @onready var killzone = $killzone
 
 ### Handles zone entry
-func enter():
+func enter() -> void:
 	pass
 	
 ### Handles zone exit
-func exit():
+func exit() -> void:
 	pass
 	
 ### Updates zone (non-physics) per tick
-func update(_delta : float):
+func update(_delta : float) -> void:
 	pass
 	
 ### Updates zone's physics per tick
-func physics_update(_delta : float):
+func physics_update(_delta : float) -> void:
+	pass
+
+func disableMap() -> void:
 	pass
