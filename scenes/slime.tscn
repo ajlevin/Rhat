@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/Slime.gd" id="1_83emx"]
 [ext_resource type="Texture2D" uid="uid://dspiolniequss" path="res://reference/slime_green.png" id="1_ixhr0"]
-[ext_resource type="Script" path="res://scripts/PlayerStats.gd" id="2_1ro4y"]
+[ext_resource type="Script" path="res://scripts/Stats/CreatureStats.gd" id="2_6k8vk"]
 [ext_resource type="PackedScene" uid="uid://b0jcpjjsmdkag" path="res://scenes/Universal/hitbox.tscn" id="2_48u3d"]
 [ext_resource type="Script" path="res://scripts/Universal/Hurtbox.gd" id="6_n4xmk"]
 
@@ -53,7 +53,7 @@ collision_layer = 2
 script = ExtResource("1_83emx")
 
 [node name="stats" type="Node2D" parent="."]
-script = ExtResource("2_1ro4y")
+script = ExtResource("2_6k8vk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_57v6j")

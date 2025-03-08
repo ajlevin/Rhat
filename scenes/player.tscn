@@ -2,21 +2,21 @@
 
 [ext_resource type="Texture2D" uid="uid://baaiww6rg2ogv" path="res://reference/knight.png" id="1_gpfj7"]
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_ygmf4"]
-[ext_resource type="Script" path="res://scripts/PlayerStats.gd" id="2_iwdy0"]
+[ext_resource type="Script" path="res://scripts/Stats/PlayerStats.gd" id="2_iwdy0"]
 [ext_resource type="PackedScene" uid="uid://nyc3ohxqbouq" path="res://scenes/Universal/hurtbox.tscn" id="3_3jhed"]
 [ext_resource type="Script" path="res://scripts/Universal/Hitbox.gd" id="5_03dk4"]
-[ext_resource type="Script" path="res://scripts/FSM/StateMachine.gd" id="6_vlsyt"]
-[ext_resource type="Script" path="res://scripts/FSM/Idle.gd" id="7_qyw7l"]
-[ext_resource type="Script" path="res://scripts/FSM/Run.gd" id="8_5mwc2"]
-[ext_resource type="Script" path="res://scripts/FSM/Blast.gd" id="8_mk7im"]
-[ext_resource type="Script" path="res://scripts/FSM/Melee.gd" id="9_dav7q"]
-[ext_resource type="Script" path="res://scripts/FSM/OnWall.gd" id="10_wy3i6"]
-[ext_resource type="Script" path="res://scripts/FSM/Airborne.gd" id="11_rdxji"]
-[ext_resource type="Script" path="res://scripts/FSM/Dead.gd" id="12_ex2rv"]
-[ext_resource type="Script" path="res://scripts/FSM/Spawn.gd" id="13_scs5x"]
-[ext_resource type="Script" path="res://scripts/FSM/Hit.gd" id="14_fmnic"]
-[ext_resource type="Script" path="res://scripts/FSM/Dash.gd" id="15_mr725"]
-[ext_resource type="Script" path="res://scripts/FSM/Jump.gd" id="15_t8mmb"]
+[ext_resource type="Script" path="res://scripts/PFSM/PlayerStateMachine.gd" id="6_vlsyt"]
+[ext_resource type="Script" path="res://scripts/PFSM/Idle.gd" id="7_qyw7l"]
+[ext_resource type="Script" path="res://scripts/PFSM/Run.gd" id="8_5mwc2"]
+[ext_resource type="Script" path="res://scripts/PFSM/Blast.gd" id="8_mk7im"]
+[ext_resource type="Script" path="res://scripts/PFSM/Melee.gd" id="9_dav7q"]
+[ext_resource type="Script" path="res://scripts/PFSM/OnWall.gd" id="10_wy3i6"]
+[ext_resource type="Script" path="res://scripts/PFSM/Airborne.gd" id="11_rdxji"]
+[ext_resource type="Script" path="res://scripts/PFSM/Dead.gd" id="12_ex2rv"]
+[ext_resource type="Script" path="res://scripts/PFSM/Spawn.gd" id="13_scs5x"]
+[ext_resource type="Script" path="res://scripts/PFSM/Hit.gd" id="14_fmnic"]
+[ext_resource type="Script" path="res://scripts/PFSM/Dash.gd" id="15_mr725"]
+[ext_resource type="Script" path="res://scripts/PFSM/Jump.gd" id="15_t8mmb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k43nt"]
 atlas = ExtResource("1_gpfj7")
@@ -690,7 +690,7 @@ script = ExtResource("2_iwdy0")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="." groups=["Player"]]
 sprite_frames = SubResource("SpriteFrames_35i41")
-animation = &"melee"
+animation = &"dash"
 autoplay = "idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["Player"]]
@@ -742,8 +742,8 @@ target_position = Vector2(0, -7)
 [node name="Hitboxes" type="Node2D" parent="."]
 
 [node name="melee" type="Area2D" parent="Hitboxes"]
-collision_layer = 16
-collision_mask = 9
+collision_layer = 17
+collision_mask = 8
 script = ExtResource("5_03dk4")
 
 [node name="shape" type="CollisionShape2D" parent="Hitboxes/melee"]
@@ -754,8 +754,8 @@ debug_color = Color(0.805994, 0.371806, 0.494779, 0.42)
 
 [node name="blast" type="Area2D" parent="Hitboxes"]
 top_level = true
-collision_layer = 16
-collision_mask = 9
+collision_layer = 17
+collision_mask = 8
 script = ExtResource("5_03dk4")
 
 [node name="shape" type="CollisionShape2D" parent="Hitboxes/blast"]
@@ -821,6 +821,7 @@ script = ExtResource("13_scs5x")
 [connection signal="health_changed" from="stats" to="." method="_on_health_changed"]
 [connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
 [connection signal="health_changed" from="stats" to="StateMachine" method="_on_health_changed"]
+[connection signal="health_changed" from="stats" to="StateMachine/Hit" method="_on_stats_health_changed"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_health_zero"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_stats_health_zero"]
 [connection signal="area_entered" from="Hitboxes/blast" to="StateMachine/Blast" method="_on_blast_area_entered"]

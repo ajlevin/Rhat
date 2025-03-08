@@ -10,10 +10,10 @@ func _ready() -> void:
 	var mapRect = identity_map.get_used_rect()
 	var tileSize = identity_map.tile_set.tile_size
 	var worldSizeInPixels = mapRect.size * tileSize
-	limit_left = -100
-	limit_top = -100
-	limit_right = worldSizeInPixels.x + 100
-	limit_bottom = worldSizeInPixels.y + 100
+	limit_left = -100 + 100 + 16
+	limit_top = -100 + 100
+	limit_right = worldSizeInPixels.x + 100 - 100
+	limit_bottom = worldSizeInPixels.y + 100 - 100
 
 ### ---
 func _process(delta) -> void:
