@@ -1,8 +1,8 @@
-extends CharacterBody2D
 class_name Player
+extends CharacterBody2D
 
 func _ready() -> void:
-	print(self.global_position)
+	pass
 
 func _process(_delta : float) -> void:
 	pass

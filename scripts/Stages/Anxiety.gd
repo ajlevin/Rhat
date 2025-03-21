@@ -2,7 +2,9 @@ class_name Anxiety
 extends Zone
 
 @onready var anxiety_map : TileMapLayer = $"../../TileMaps/AnxietyMap"
+@onready var anxiety_plax: Node2D = $"../../Backgrounds/AnxietyPlax"
 @onready var slimeNode : Resource = preload("res://scenes/slime.tscn")
+@onready var anxiety_nav: NavigationRegion2D = $"../../NavLayers/AnxietyNav"
 
 @export var slime : Slime
 
@@ -10,6 +12,8 @@ extends Zone
 func enter() -> void:
 	print("|-- Entering Anxiety --|")
 	anxiety_map.enabled = true
+	anxiety_plax.visible = true
+	anxiety_nav.enabled = true
 	
 	slime = slimeNode.instantiate()
 	slime.global_position = Vector2(374, 180)
@@ -19,6 +23,8 @@ func enter() -> void:
 func exit() -> void:
 	print("|-- Exiting Anxiety --|")
 	anxiety_map.enabled = false
+	anxiety_plax.visible = false
+	anxiety_nav.enabled = true
 	
 	slime.queue_free()
 	

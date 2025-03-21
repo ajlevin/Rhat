@@ -2,6 +2,8 @@ class_name StageController
 extends Node
 
 @onready var player: Player = $"../player"
+@onready var backgrounds: Node2D = $"../Backgrounds"
+@onready var nav_layers: Node2D = $"../NavLayers"
 
 @export var initialZone : Zone
 @export var curZone : Zone
@@ -9,6 +11,15 @@ var zones : Dictionary = {}
 
 ### Collect all existing zones and set initial zone
 func _ready() -> void:
+	# Disables all backgrounds
+	for background : Node2D in backgrounds.get_children():
+		background.visible = false
+		
+	# Disables all navigation meshes
+	for nav_layer : NavigationRegion2D in nav_layers.get_children():
+		nav_layer.enabled = false
+		nav_layer.navigation_layers = 0
+	
 	# Collects all zones that exist as children within the tree
 	for child in get_children():
 		if child is Zone:
@@ -37,7 +48,7 @@ func _physics_process(delta) -> void:
 ### Handles transitions from one zone to the next
 func on_zone_transition(zone, newZoneName) -> void:
 	### TESTING -- put player at default spawn location
-	player.global_position = Vector2(151, 178)
+	player.global_position = Vector2(195, 317)
 	
 	# reached if an inactive zone manages to emit a signal >:(
 	if zone != curZone:
