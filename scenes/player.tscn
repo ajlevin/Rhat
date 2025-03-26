@@ -1,4 +1,4 @@
-[gd_scene load_steps=103 format=3 uid="uid://cahhif8t6eo03"]
+[gd_scene load_steps=110 format=3 uid="uid://cahhif8t6eo03"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_ygmf4"]
 [ext_resource type="Script" path="res://scripts/Stats/PlayerStats.gd" id="2_iwdy0"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://scripts/PFSM/Hit.gd" id="14_fmnic"]
 [ext_resource type="Script" path="res://scripts/PFSM/Dash.gd" id="15_mr725"]
 [ext_resource type="Script" path="res://scripts/PFSM/Jump.gd" id="15_t8mmb"]
+[ext_resource type="Script" path="res://scripts/PFSM/Counter.gd" id="20_3jaqf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0cypo"]
 atlas = ExtResource("4_hgwbf")
@@ -41,6 +42,26 @@ atlas = ExtResource("4_hgwbf")
 region = Rect2(225, 525, 75, 75)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_da8tj"]
+atlas = ExtResource("4_hgwbf")
+region = Rect2(300, 525, 75, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jd4br"]
+atlas = ExtResource("4_hgwbf")
+region = Rect2(0, 525, 75, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4eqr2"]
+atlas = ExtResource("4_hgwbf")
+region = Rect2(75, 525, 75, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4vcsf"]
+atlas = ExtResource("4_hgwbf")
+region = Rect2(150, 525, 75, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rs27i"]
+atlas = ExtResource("4_hgwbf")
+region = Rect2(225, 525, 75, 75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uumr5"]
 atlas = ExtResource("4_hgwbf")
 region = Rect2(300, 525, 75, 75)
 
@@ -267,6 +288,26 @@ animations = [{
 }],
 "loop": false,
 "name": &"blast",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jd4br")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4eqr2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4vcsf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rs27i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uumr5")
+}],
+"loop": false,
+"name": &"counter",
 "speed": 10.0
 }, {
 "frames": [{
@@ -591,18 +632,66 @@ tracks/2/keys = {
 tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Hitboxes/blast")
+tracks/3/path = NodePath("StateMachine/Blast")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"enable"
+"method": &"lockPlayer"
 }, {
 "args": [],
-"method": &"disable"
+"method": &"unlockPlayer"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_pt1ud"]
+resource_name = "counter"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"counter", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateMachine/Counter")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"state_check"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("StateMachine/Counter")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"enableCounter"
+}, {
+"args": [],
+"method": &"disableCounter"
 }]
 }
 
@@ -842,6 +931,7 @@ tracks/0/keys = {
 _data = {
 "RESET": SubResource("Animation_gnnj4"),
 "blast": SubResource("Animation_qs7hh"),
+"counter": SubResource("Animation_pt1ud"),
 "dash": SubResource("Animation_s3lax"),
 "death": SubResource("Animation_i4fx7"),
 "iFrames": SubResource("Animation_xo4vd"),
@@ -888,10 +978,10 @@ radius = 11.0
 height = 64.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b6nhx"]
-size = Vector2(15, 14)
+size = Vector2(26.5, 45)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_46oxr"]
-size = Vector2(18, 16)
+size = Vector2(34, 39)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
@@ -903,12 +993,10 @@ script = ExtResource("2_iwdy0")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="." groups=["Player"]]
 sprite_frames = SubResource("SpriteFrames_35i41")
-animation = &"hit"
+animation = &"counter"
 autoplay = "idle"
-frame = 4
-frame_progress = 1.0
 
-[node name="EffectSprite" type="AnimatedSprite2D" parent="."]
+[node name="EffectSprite" type="AnimatedSprite2D" parent="." groups=["Player"]]
 position = Vector2(-9.53674e-07, 0)
 scale = Vector2(0.328125, 0.328125)
 sprite_frames = SubResource("SpriteFrames_pib1p")
@@ -934,7 +1022,7 @@ collision_mask = 4
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_i2cqu")
 
-[node name="collision" type="CollisionShape2D" parent="."]
+[node name="collision" type="CollisionShape2D" parent="." groups=["Player"]]
 light_mask = 2
 position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_f28k5")
@@ -961,16 +1049,15 @@ target_position = Vector2(0, -10)
 position = Vector2(0, -29)
 target_position = Vector2(0, -6)
 
-[node name="Hitboxes" type="Node2D" parent="."]
-visible = false
+[node name="Hitboxes" type="Node2D" parent="." groups=["Player"]]
 
 [node name="melee" type="Area2D" parent="Hitboxes"]
 collision_layer = 17
 collision_mask = 8
 script = ExtResource("5_03dk4")
 
-[node name="shape" type="CollisionShape2D" parent="Hitboxes/melee"]
-position = Vector2(14.5, 4)
+[node name="shape" type="CollisionShape2D" parent="Hitboxes/melee" groups=["Player"]]
+position = Vector2(24.75, 6.5)
 shape = SubResource("RectangleShape2D_b6nhx")
 disabled = true
 debug_color = Color(0.805994, 0.371806, 0.494779, 0.42)
@@ -981,8 +1068,8 @@ collision_layer = 17
 collision_mask = 8
 script = ExtResource("5_03dk4")
 
-[node name="shape" type="CollisionShape2D" parent="Hitboxes/blast"]
-position = Vector2(0, 3)
+[node name="shape" type="CollisionShape2D" parent="Hitboxes/blast" groups=["Player"]]
+position = Vector2(0, 6.5)
 shape = SubResource("RectangleShape2D_46oxr")
 disabled = true
 debug_color = Color(0.607717, 0.533734, 0.236303, 0.42)
@@ -1012,6 +1099,9 @@ script = ExtResource("11_rdxji")
 
 [node name="Blast" type="Node" parent="StateMachine" groups=["Player"]]
 script = ExtResource("8_mk7im")
+
+[node name="Counter" type="Node" parent="StateMachine" groups=["Player"]]
+script = ExtResource("20_3jaqf")
 
 [node name="Dash" type="Node" parent="StateMachine" groups=["Player"]]
 script = ExtResource("15_mr725")
@@ -1047,6 +1137,7 @@ script = ExtResource("13_scs5x")
 [connection signal="health_changed" from="stats" to="StateMachine/Hit" method="_on_stats_health_changed"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_stats_health_zero"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_health_zero"]
+[connection signal="area_entered" from="hurtbox" to="StateMachine/Counter" method="_on_hurtbox_area_entered"]
 [connection signal="area_entered" from="Hitboxes/blast" to="StateMachine/Blast" method="_on_blast_area_entered"]
 [connection signal="timeout" from="Timers/DashResetTimer" to="StateMachine/Dash" method="_on_dash_reset_timer_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
