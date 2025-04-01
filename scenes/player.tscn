@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=3 uid="uid://cahhif8t6eo03"]
+[gd_scene load_steps=109 format=3 uid="uid://cahhif8t6eo03"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_ygmf4"]
 [ext_resource type="Script" path="res://scripts/Stats/PlayerStats.gd" id="2_iwdy0"]
@@ -649,6 +649,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_pt1ud"]
 resource_name = "counter"
+length = 0.8
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -670,7 +671,7 @@ tracks/1/path = NodePath("StateMachine/Counter")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.8),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -684,7 +685,7 @@ tracks/2/path = NodePath("StateMachine/Counter")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.7),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -697,7 +698,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_s3lax"]
 resource_name = "dash"
-length = 0.15
+length = 0.2
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -719,7 +720,7 @@ tracks/1/path = NodePath("StateMachine/Dash")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.15),
+"times": PackedFloat32Array(0.2),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -736,7 +737,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [0.15, true],
+"args": [0.2, true],
 "method": &"set_temp_immortality"
 }]
 }
@@ -750,36 +751,36 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [0.15, false],
-"method": &"set_temp_actionable"
+"args": [false],
+"method": &"set_dash"
 }]
 }
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("stats")
+tracks/4/path = NodePath("EffectSprite")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [false],
-"method": &"set_dash"
+"args": [&"dash", 1.0, false],
+"method": &"play"
 }]
 }
 tracks/5/type = "method"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("EffectSprite")
+tracks/5/path = NodePath("stats")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [&"dash", 1.0, false],
-"method": &"play"
+"args": [0.2, false],
+"method": &"set_temp_actionable"
 }]
 }
 
@@ -857,6 +858,20 @@ tracks/2/keys = {
 "values": [{
 "args": [],
 "method": &"state_check"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("stats")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [true],
+"method": &"set_actionable"
 }]
 }
 
@@ -980,9 +995,6 @@ height = 64.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b6nhx"]
 size = Vector2(26.5, 45)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_46oxr"]
-size = Vector2(34, 39)
-
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_ygmf4")
@@ -1052,7 +1064,7 @@ target_position = Vector2(0, -6)
 [node name="Hitboxes" type="Node2D" parent="." groups=["Player"]]
 
 [node name="melee" type="Area2D" parent="Hitboxes"]
-collision_layer = 17
+collision_layer = 16
 collision_mask = 8
 script = ExtResource("5_03dk4")
 
@@ -1061,18 +1073,6 @@ position = Vector2(24.75, 6.5)
 shape = SubResource("RectangleShape2D_b6nhx")
 disabled = true
 debug_color = Color(0.805994, 0.371806, 0.494779, 0.42)
-
-[node name="blast" type="Area2D" parent="Hitboxes"]
-top_level = true
-collision_layer = 17
-collision_mask = 8
-script = ExtResource("5_03dk4")
-
-[node name="shape" type="CollisionShape2D" parent="Hitboxes/blast" groups=["Player"]]
-position = Vector2(0, 6.5)
-shape = SubResource("RectangleShape2D_46oxr")
-disabled = true
-debug_color = Color(0.607717, 0.533734, 0.236303, 0.42)
 
 [node name="Timers" type="Node" parent="." groups=["Player"]]
 
@@ -1131,14 +1131,13 @@ script = ExtResource("8_5mwc2")
 script = ExtResource("13_scs5x")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
 [connection signal="health_changed" from="stats" to="." method="_on_health_changed"]
+[connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
 [connection signal="health_changed" from="stats" to="StateMachine" method="_on_health_changed"]
 [connection signal="health_changed" from="stats" to="StateMachine/Hit" method="_on_stats_health_changed"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_stats_health_zero"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_health_zero"]
 [connection signal="area_entered" from="hurtbox" to="StateMachine/Counter" method="_on_hurtbox_area_entered"]
-[connection signal="area_entered" from="Hitboxes/blast" to="StateMachine/Blast" method="_on_blast_area_entered"]
 [connection signal="timeout" from="Timers/DashResetTimer" to="StateMachine/Dash" method="_on_dash_reset_timer_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="StateMachine/Airborne" method="_on_coyote_timer_timeout"]
