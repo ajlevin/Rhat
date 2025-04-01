@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7r5lccnhdyld"]
+
+[ext_resource type="Script" path="res://scripts/Universal/dood.gd" id="1_4ymn1"]
+[ext_resource type="Texture2D" uid="uid://dy25o3uhxs31m" path="res://assets/dood.png" id="1_v7mqt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jrkwg"]
+size = Vector2(14, 19)
+
+[node name="dood" type="CharacterBody2D"]
+script = ExtResource("1_4ymn1")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_v7mqt")
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2(1, 1.5)
+shape = SubResource("RectangleShape2D_jrkwg")

@@ -1,0 +1,6 @@
+[gd_resource type="NavigationPolygon" format=3 uid="uid://b7vwvb5s4d3ba"]
+
+[resource]
+vertices = PackedVector2Array(650, 282, 741.031, 341.977, 90.9609, 341.008, 502, 282, 346, 282, 198, 282, 741.969, 42, 650, 230.078, 90.0313, 42, 198, 230, 346, 230, 502, 228.922)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 3, 2), PackedInt32Array(5, 4, 2), PackedInt32Array(6, 1, 0, 7), PackedInt32Array(5, 2, 8, 9), PackedInt32Array(10, 9, 8, 6, 11), PackedInt32Array(11, 3, 4, 10), PackedInt32Array(6, 7, 11)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(80, 32, 81, 351, 751, 352, 752, 32), PackedVector2Array(208, 240, 336, 240, 336, 272, 208, 272), PackedVector2Array(512, 239, 640, 240, 640, 272, 512, 272)])

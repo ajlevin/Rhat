@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcfr2puxwfy5x"]
+
+[ext_resource type="Script" path="res://scripts/Stages/Hate.gd" id="1_vsyyn"]
+
+[node name="Nem" type="Node2D"]
+script = ExtResource("1_vsyyn")

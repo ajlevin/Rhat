@@ -1,0 +1,75 @@
+[gd_scene load_steps=12 format=3 uid="uid://btc3x4o5k6okl"]
+
+[ext_resource type="Script" path="res://scripts/Projectile.gd" id="1_yv3xy"]
+[ext_resource type="Script" path="res://scripts/Universal/Hitbox.gd" id="2_30puv"]
+[ext_resource type="Texture2D" uid="uid://dqud8njq64oer" path="res://assets/Holders/Thunder Effect 01/Thunder Effect 01/Thunder Projectile 1/Thunder projectile1 wo blur.png" id="2_xxldi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2rs4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ium7s"]
+atlas = ExtResource("2_xxldi")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6p31r"]
+atlas = ExtResource("2_xxldi")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehtv0"]
+atlas = ExtResource("2_xxldi")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpwnv"]
+atlas = ExtResource("2_xxldi")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n15nr"]
+atlas = ExtResource("2_xxldi")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_av7yu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ium7s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6p31r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ehtv0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpwnv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n15nr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aydsf"]
+
+[node name="Projectile" type="CharacterBody2D"]
+top_level = true
+collision_layer = 0
+safe_margin = 0.05
+script = ExtResource("1_yv3xy")
+
+[node name="collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_b2rs4")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_av7yu")
+autoplay = "default"
+frame = 2
+frame_progress = 0.227851
+
+[node name="Hitbox" type="Area2D" parent="."]
+script = ExtResource("2_30puv")
+
+[node name="shape" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_aydsf")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
