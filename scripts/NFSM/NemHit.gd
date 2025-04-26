@@ -12,7 +12,7 @@ func enter() -> void:
 	
 	# handles player knockback on damage
 	# ToDo: Tune to lurche at the start then slow instead of a linear bump
-	hitVector = (hurtbox.global_position - hurtbox.hitboxes[0].global_position).normalized()
+	hitVector = (hurtbox.global_position - instance_from_id(hurtbox.hitboxTimers.keys()[-1]).global_position).normalized()
 	nemesis.velocity.x = 140 * (hitVector.x)
 	nemesis.velocity.y = 120 * (hitVector.y) - 50
 	
@@ -28,13 +28,14 @@ func physics_update(_delta : float) -> void:
 	
 ### Checks for which state to put the player back into after hitstun
 func state_check() -> void:
+	var nInput = ndc.getCurInput()
 	var direction : Vector2 = ndc.getPlayerDirection()
 	
-	if !nemesis.is_on_floor():
-		transitioned.emit(self, "airborne")
-	#elif Input.is_action_just_pressed("dash") and stats.dash:
-		#transitioned.emit(self, "dash")
-	elif direction.x != 0:
-		transitioned.emit(self, "run")
-	else:
-		transitioned.emit(self, "idle")
+	match nInput:
+		ndc.NemInput.Burst:
+			transitioned.emit(self, "nemburst")
+		_:
+			if !nemesis.is_on_floor():
+				transitioned.emit(self, "nemairborne")
+			else:
+				transitioned.emit(self, "nemidle")

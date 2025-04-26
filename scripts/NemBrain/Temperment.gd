@@ -9,7 +9,10 @@ extends Node
 # Value from 0.0 to 1.0 with 0.0 being easy and 1.0 being hard
 # Determines the overall speed of the nemesis decision making
 @export var fairness : float = 0.2
-var dirToPlayer : Vector2 = Vector2.ZERO
+@onready var dirToPlayer : Vector2 = Vector2.ZERO
+@onready var rng : RandomNumberGenerator = RandomNumberGenerator.new()
+@export var randNum : float 
+@export var curPlayerState : PlayerState
 
 signal moodChange
 

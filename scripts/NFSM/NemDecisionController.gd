@@ -9,8 +9,10 @@ extends Node
 @onready var down_left: RayCast2D = $"../Rays/downLeft"
 @onready var down_right: RayCast2D = $"../Rays/downRight"
 @onready var down: RayCast2D = $"../Rays/down"
+@onready var ceiling: RayCast2D = $"../Rays/ceiling"
 @onready var player : Player = get_tree().get_first_node_in_group("Player")
 
+@export var targetDir : Vector2
 enum NemInput {
 	None,
 	Idle,
@@ -18,9 +20,9 @@ enum NemInput {
 	Melee,
 	Blast,
 	Counter,
-	Left,
-	Right,
-	Jump
+	Run,
+	Jump,
+	Burst
 }
 
 @export var initialTemperment : Temperment
@@ -62,11 +64,36 @@ func withinAttackRange() -> int:
 	else: 
 		return 0
 
-func withinBlastRange() -> int:
-	return 0
+func withinBlastRange() -> bool:
+	return abs(player.global_position.y - nemesis.global_position.y) < 20
+
+func incomingBlast() -> Vector2:
+	var blast : Projectile = get_tree().get_first_node_in_group("projectile")
+	if blast != null and blast.isPlayerOwned():
+		return nemesis.global_position.direction_to(blast.global_position)
+	return Vector2.ZERO
+	
+func playerApproaching() -> bool:
+	return getPlayerDirection().normalized().dot(player.velocity.normalized()) < -0.6
+	
+func playerIsGrounded() -> bool:
+	return abs(player.global_position).distance_to(nemesis.global_position) > 100 \
+		or player.getCurPlayerState() is Idle \
+		or player.getCurPlayerState() is Run
 
 func getPlayerDirection() -> Vector2:
 	return nemesis.global_position.direction_to(nav_agent.get_next_path_position())
+
+func requiresJump() -> bool:
+	return !ceiling.is_colliding() \
+		and (getPlayerDirection().normalized().y < -0.3 or playerOnUpperPlatform()) \
+		and ((nemesis.velocity.y >= 0 and stats.extraJump) or nemesis.is_on_floor())
+
+func maintainJump() -> bool:
+	return (getPlayerDirection().normalized().y < -0.3 or playerOnUpperPlatform()) and nemesis.velocity.y <= 0
+
+func playerOnUpperPlatform() -> bool:
+	return player.is_on_floor() and getPlayerDirection().normalized().y < 0
 
 ### Handles transitions from one temperment to the next
 func on_mood_change(temperment, newTempermentName) -> void:

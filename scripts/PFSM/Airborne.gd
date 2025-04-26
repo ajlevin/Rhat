@@ -73,6 +73,8 @@ func state_check(direction : Vector2) -> void:
 			transitioned.emit(self, "run")
 		else:
 			transitioned.emit(self, "idle")
+	elif Input.is_action_just_pressed("burst") and stats.get_actionable() and stats.get_burstCharges() > 0:
+		transitioned.emit(self, "burst")
 	elif Input.is_action_just_pressed("dash") and stats.get_dash() and stats.get_actionable():
 		transitioned.emit(self, "dash")
 	elif Input.is_action_just_pressed("attack") and stats.get_actionable():

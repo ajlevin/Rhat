@@ -30,6 +30,8 @@ func into_wall(xDirection : float) -> bool :
 
 ### Checks if the player has left the wall for any reason
 func state_check(direction : Vector2) -> void:
+	var nInput = ndc.getCurInput()
+	
 	if nemesis.is_on_floor():
 		transitioned.emit(self, "nemidle")
 	elif down.is_colliding() and stats.get_dash():

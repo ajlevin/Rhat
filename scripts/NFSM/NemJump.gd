@@ -49,17 +49,45 @@ func _on_kick_timer_timeout() -> void:
 
 ### Checks if the jump has ended, either by landing or the input being released
 func state_check(direction : Vector2) -> void:
-	if nemesis.is_on_floor():
-		if direction.x != 0:
-			transitioned.emit(self, "nemrun")
-		else:
-			transitioned.emit(self, "nemidle")
-	elif (direction.y > -0.1 and (stats.wallKicking == 0)) \
-		or nemesis.velocity.y >= 0:
-		transitioned.emit(self, "nemairborne")
-	elif nemesis.velocity.y >= 0 and stats.extraJump and direction.y < -0.4:
-		stats.extraJump = false
-		transitioned.emit(self, "nemjump")
+	var nInput = ndc.getCurInput()
+	
+	match nInput:
+		ndc.NemInput.Run:
+			if ndc.requiresJump():
+				transitioned.emit(self, "nemjump")
+			elif ndc.maintainJump():
+				pass
+			elif nemesis.is_on_floor():
+				transitioned.emit(self, "nemrun")
+			else:
+				transitioned.emit(self, "nemairborne")
+		ndc.NemInput.Burst:
+			transitioned.emit(self, "nemburst")
+		ndc.NemInput.Counter:
+			transitioned.emit(self, "nemcounter")
+		ndc.NemInput.Melee:
+			transitioned.emit(self, "nemmelee")
+		ndc.NemInput.Blast:
+			transitioned.emit(self, "nemblast")
+		ndc.NemInput.Dash:
+			if stats.get_dash():
+				transitioned.emit(self, "nemdash")
+			else:
+				transitioned.emit(self, "nemrun")
+		_:
+			pass
+	
+	#if nemesis.is_on_floor():
+		#if direction.x != 0:
+			#transitioned.emit(self, "nemrun")
+		#else:
+			#transitioned.emit(self, "nemidle")
+	#elif (direction.y > -0.1 and (stats.wallKicking == 0)) \
+		#or nemesis.velocity.y >= 0:
+		#transitioned.emit(self, "nemairborne")
+	#elif nemesis.velocity.y >= 0 and stats.extraJump and direction.y < -0.4:
+		#stats.extraJump = false
+		#transitioned.emit(self, "nemjump")
 	#elif Input.is_action_just_pressed("dash") and stats.get_dash():
 		#transitioned.emit(self, "nemdash")
 	#elif Input.is_action_just_pressed("attack"):

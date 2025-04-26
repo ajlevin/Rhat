@@ -1,6 +1,8 @@
 class_name Projectile
 extends CharacterBody2D
 
+signal projectileCreated
+
 const SPEED : int = 600
 const DURATION : int = 1
 
@@ -40,12 +42,7 @@ func _physics_process(_delta: float) -> void:
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if (area is Hurtbox):
-		if area.is_countering():
-			if area.get_parent() is Slime:
-				reverse(false)
-			# print(area.get_parent().name)
-			pass
-		elif area.is_invincible():
+		if area.is_invincible():
 			pass
 		else:
 			# await get_tree().create_timer(0.05).timeout
@@ -66,3 +63,7 @@ func create(pos : Vector2, direction : int, cLayer : int, cMask : int) -> void:
 	hitbox.set_collision_layer_value(cLayer, true)
 	hitbox.set_collision_mask_value(cMask, true)
 	hitbox.set_damage(1)
+	projectileCreated.emit()
+
+func isPlayerOwned() -> bool:
+	return hitbox.collision_layer == 16

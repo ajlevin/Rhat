@@ -26,7 +26,8 @@ func exit() -> void:
 	anxiety_plax.visible = false
 	anxiety_nav.enabled = true
 	
-	slime.queue_free()
+	if slime != null:
+		slime.queue_free()
 	
 func update(_delta : float) -> void:
 	pass

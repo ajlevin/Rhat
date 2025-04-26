@@ -1,6 +1,6 @@
 [gd_resource type="NavigationPolygon" format=3 uid="uid://bw7wtqqpuejdl"]
 
 [resource]
-vertices = PackedVector2Array(742, 42, 742, 333.891, 655.5, 342, 522, 282, 522, 230, 176.469, 342, 310, 282, 90, 42, 310, 230, 90, 334.789)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(3, 2, 5, 6), PackedInt32Array(7, 0, 4, 8), PackedInt32Array(5, 9, 7, 8, 6)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(80, 32, 80, 344, 176, 352, 656, 352, 752, 344, 752, 32), PackedVector2Array(320, 240, 512, 240, 512, 272, 320, 272)])
+vertices = PackedVector2Array(522, 282, 658.992, 342, 173.039, 342, 310, 282, 742, 42, 742, 396.469, 89.0391, 396.539, 89.9688, 42, 310, 230, 522, 230)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 1), PackedInt32Array(2, 6, 7, 8), PackedInt32Array(4, 1, 0, 9), PackedInt32Array(7, 4, 9, 8), PackedInt32Array(2, 8, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(80, 32, 79, 415, 176, 352, 656, 352, 752, 415, 752, 32), PackedVector2Array(320, 240, 512, 240, 512, 272, 320, 272)])

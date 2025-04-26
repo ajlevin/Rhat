@@ -13,20 +13,24 @@ func enter() -> void:
 	stats.wasOnFloor = false
 	
 	# handles player knockback on damage
-	# ToDo: Tune to lurche at the start then slow instead of a linear bump
-	hitVector = (hurtbox.global_position - hurtbox.hitboxes[0].global_position).normalized()
+	# TODO: Tune to lurche at the start then slow instead of a linear bump
+	# BUG: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	hitVector = (hurtbox.global_position - instance_from_id(hurtbox.hitboxTimers.keys()[-1]).global_position).normalized()
+	hitVector = Vector2.ZERO
 	player.velocity.x = 140 * (hitVector.x)
 	player.velocity.y = 120 * (hitVector.y) - 50
 	
 ### Reduces the player's velocity as it comes out of hitstun
 func exit() -> void:
+	stats.set_actionable(true)
 	player.velocity.x *= 0.2
 	
 func update(_delta : float) -> void:
 	pass
 	
 func physics_update(_delta : float) -> void:
-	pass
+	if Input.is_action_just_pressed("burst"):
+		state_check()
 	
 ### Checks for which state to put the player back into after hitstun
 func state_check() -> void:

@@ -30,15 +30,26 @@ func physics_update(_delta : float) -> void:
 	
 ### Checks if the player has left the ground or stopped moving
 func state_check(direction : Vector2) -> void:	
-	if ndc.withinAttackRange() != 0:
-		transitioned.emit(self, "nemmelee")
-	elif !direction.x:
-		transitioned.emit(self, "nemidle")
-	#elif Input.is_action_just_pressed("dash") and stats.get_dash() and stats.get_actionable():
-		#transitioned.emit(self, "dash")
-	elif direction.y < -0.5:
-		transitioned.emit(self, "nemjump")
-	elif !nemesis.is_on_floor():
-		transitioned.emit(self, "nemairborne")
-	#elif Input.is_action_just_pressed("special") and stats.get_actionable():
-		#transitioned.emit(self, "blast")
+	var nInput = ndc.getCurInput()
+	
+	match nInput:
+		ndc.NemInput.Run:
+			if ndc.requiresJump():
+				transitioned.emit(self, "nemjump")
+			elif !nemesis.is_on_floor():
+				transitioned.emit(self, "nemairborne")
+		ndc.NemInput.Burst:
+			transitioned.emit(self, "nemburst")
+		ndc.NemInput.Counter:
+			transitioned.emit(self, "nemcounter")
+		ndc.NemInput.Melee:
+			transitioned.emit(self, "nemmelee")
+		ndc.NemInput.Blast:
+			transitioned.emit(self, "nemblast")
+		ndc.NemInput.Dash:
+			if stats.get_dash():
+				transitioned.emit(self, "nemdash")
+			elif !nemesis.is_on_floor():
+				transitioned.emit(self, "nemairborne")
+		_:
+			transitioned.emit(self, "nemidle")

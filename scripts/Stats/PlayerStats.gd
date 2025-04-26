@@ -11,6 +11,7 @@ const COYOTE_TIME_DURATION : float = 0.08
 const KICK_TIMER_DURATION : float = 0.15
 const DASH_RESET_DURATION : float = 0.4
 const WALL_SLIDE_VELOCITY : float = 80.0
+const BURST_TIMER_DURATION : float = 5.0
 
 # Player state variables
 @onready var actionable : bool = true : set = set_actionable, get = get_actionable
@@ -22,6 +23,8 @@ var actionableTimer : Timer = null
 @onready var dash : bool = true : set = set_dash, get = get_dash
 @export var wallKicking : int = 0
 @export var countering : bool = false : set = set_countering, get = get_countering
+@onready var burstCharges : int = 2 : set = set_burstCharges, get = get_burstCharges
+var burstTimer : Timer = null
 
 func _ready() -> void:
 	maxHealth = 3
@@ -65,6 +68,30 @@ func set_countering(val: bool) -> void:
 ### Returns whether the player is countering
 func get_countering() -> bool:
 	return countering
+
+func set_burstCharges(val: int) -> void:
+	burstCharges = val
+	print("set to " + str(val))
+	
+func get_burstCharges() -> int:
+	return burstCharges
+
+func increment_burstCharges() -> void:
+	burstCharges += 1
+
+func recharge_burst() -> void:
+	if burstCharges < 2 and (burstTimer == null or burstTimer.is_stopped()):
+		if burstTimer == null:
+			burstTimer = Timer.new()
+			burstTimer.one_shot = true
+			add_child(burstTimer)
+		
+		if burstTimer.timeout.is_connected(set_immortality):
+			burstTimer.timeout.disconnect(set_immortality)
+		burstTimer.set_wait_time(BURST_TIMER_DURATION)
+		burstTimer.timeout.connect(increment_burstCharges.bind())
+		burstTimer.start()
+		print("recharging")
 
 ### Sets max health (minimum of 1)
 func set_max_health(val: int) -> void:

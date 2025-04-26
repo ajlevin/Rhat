@@ -45,21 +45,28 @@ func into_wall(xDirection : float) -> bool :
 		(right_wall_ray.is_colliding() and xDirection > 0)
 
 func state_check(direction : Vector2) -> void:
-	if nemesis.is_on_floor():
-		if direction.x != 0:
-			transitioned.emit(self, "nemrun")
-		else:
-			transitioned.emit(self, "nemidle")
-	elif down.is_colliding() && stats.get_dash():
-		transitioned.emit(self, "nemdash")
-	elif into_wall(direction.x):
-		transitioned.emit(self, "nemonwall")
-	#elif Input.is_action_just_pressed("dash") and stats.get_dash() and stats.get_actionable():
-		#transitioned.emit(self, "dash")
-	#elif Input.is_action_just_pressed("attack") and stats.get_actionable():
-		#transitioned.emit(self, "melee")
-	#elif Input.is_action_just_pressed("special") and stats.get_actionable():
-		#transitioned.emit(self, "blast")
-	elif stats.extraJump and direction.y < -0.1:
-		stats.extraJump = false
-		transitioned.emit(self, "nemjump")
+	var nInput = ndc.getCurInput()
+	
+	match nInput:
+		ndc.NemInput.Run:
+			if ndc.requiresJump():
+				transitioned.emit(self, "nemjump")
+			elif nemesis.is_on_floor():
+				transitioned.emit(self, "nemrun")
+		ndc.NemInput.Burst:
+			transitioned.emit(self, "nemburst")
+		ndc.NemInput.Counter:
+			transitioned.emit(self, "nemcounter")
+		ndc.NemInput.Melee:
+			transitioned.emit(self, "nemmelee")
+		ndc.NemInput.Blast:
+			transitioned.emit(self, "nemblast")
+		ndc.NemInput.Dash:
+			if stats.get_dash():
+				transitioned.emit(self, "nemdash")
+		ndc.NemInput.Jump:
+			if stats.extraJump:
+				stats.extraJump = false
+				transitioned.emit(self, "nemjump")
+		_:
+			pass

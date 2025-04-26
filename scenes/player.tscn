@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=3 uid="uid://cahhif8t6eo03"]
+[gd_scene load_steps=113 format=3 uid="uid://cahhif8t6eo03"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_ygmf4"]
 [ext_resource type="Script" path="res://scripts/Stats/PlayerStats.gd" id="2_iwdy0"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/PFSM/Blast.gd" id="8_mk7im"]
 [ext_resource type="Script" path="res://scripts/PFSM/Melee.gd" id="9_dav7q"]
 [ext_resource type="Script" path="res://scripts/PFSM/OnWall.gd" id="10_wy3i6"]
+[ext_resource type="Script" path="res://scripts/PFSM/Burst.gd" id="11_1ij6p"]
 [ext_resource type="Script" path="res://scripts/PFSM/Airborne.gd" id="11_rdxji"]
 [ext_resource type="Script" path="res://scripts/PFSM/Dead.gd" id="12_ex2rv"]
 [ext_resource type="Script" path="res://scripts/PFSM/Spawn.gd" id="13_scs5x"]
@@ -288,6 +289,11 @@ animations = [{
 }],
 "loop": false,
 "name": &"blast",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"burst",
 "speed": 10.0
 }, {
 "frames": [{
@@ -647,6 +653,38 @@ tracks/3/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_upa2h"]
+resource_name = "Burst"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"burst", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateMachine/Burst")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"state_check"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_pt1ud"]
 resource_name = "counter"
 length = 0.8
@@ -685,7 +723,7 @@ tracks/2/path = NodePath("StateMachine/Counter")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.8),
+"times": PackedFloat32Array(0, 0.466667),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -946,6 +984,7 @@ tracks/0/keys = {
 _data = {
 "RESET": SubResource("Animation_gnnj4"),
 "blast": SubResource("Animation_qs7hh"),
+"burst": SubResource("Animation_upa2h"),
 "counter": SubResource("Animation_pt1ud"),
 "dash": SubResource("Animation_s3lax"),
 "death": SubResource("Animation_i4fx7"),
@@ -992,8 +1031,14 @@ height = 60.0
 radius = 11.0
 height = 64.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ysyt"]
+size = Vector2(21, 63)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b6nhx"]
 size = Vector2(26.5, 45)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_02x3t"]
+radius = 39.0
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
@@ -1039,6 +1084,14 @@ light_mask = 2
 position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_f28k5")
 
+[node name="counter" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 4
+
+[node name="counterShape" type="CollisionShape2D" parent="counter"]
+position = Vector2(18.5, 2.5)
+shape = SubResource("RectangleShape2D_0ysyt")
+
 [node name="Rays" type="Node2D" parent="." groups=["Player"]]
 
 [node name="rightWall" type="RayCast2D" parent="Rays" groups=["Player"]]
@@ -1074,6 +1127,13 @@ shape = SubResource("RectangleShape2D_b6nhx")
 disabled = true
 debug_color = Color(0.805994, 0.371806, 0.494779, 0.42)
 
+[node name="burst" type="Area2D" parent="Hitboxes"]
+script = ExtResource("5_03dk4")
+
+[node name="shape" type="CollisionShape2D" parent="Hitboxes/burst"]
+shape = SubResource("CircleShape2D_02x3t")
+disabled = true
+
 [node name="Timers" type="Node" parent="." groups=["Player"]]
 
 [node name="DashResetTimer" type="Timer" parent="Timers" groups=["Player"]]
@@ -1099,6 +1159,9 @@ script = ExtResource("11_rdxji")
 
 [node name="Blast" type="Node" parent="StateMachine" groups=["Player"]]
 script = ExtResource("8_mk7im")
+
+[node name="Burst" type="Node" parent="StateMachine" groups=["Player"]]
+script = ExtResource("11_1ij6p")
 
 [node name="Counter" type="Node" parent="StateMachine" groups=["Player"]]
 script = ExtResource("20_3jaqf")
@@ -1131,13 +1194,14 @@ script = ExtResource("8_5mwc2")
 script = ExtResource("13_scs5x")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="health_changed" from="stats" to="." method="_on_health_changed"]
 [connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
+[connection signal="health_changed" from="stats" to="." method="_on_health_changed"]
 [connection signal="health_changed" from="stats" to="StateMachine" method="_on_health_changed"]
 [connection signal="health_changed" from="stats" to="StateMachine/Hit" method="_on_stats_health_changed"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_stats_health_zero"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_health_zero"]
 [connection signal="area_entered" from="hurtbox" to="StateMachine/Counter" method="_on_hurtbox_area_entered"]
+[connection signal="area_entered" from="counter" to="StateMachine/Counter" method="_on_counter_area_entered"]
 [connection signal="timeout" from="Timers/DashResetTimer" to="StateMachine/Dash" method="_on_dash_reset_timer_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
 [connection signal="timeout" from="Timers/CoyoteTimer" to="StateMachine/Airborne" method="_on_coyote_timer_timeout"]

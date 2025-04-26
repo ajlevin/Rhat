@@ -35,6 +35,8 @@ func into_wall(xDirection : float) -> bool :
 func state_check(direction : Vector2) -> void:
 	if player.is_on_floor():
 		transitioned.emit(self, "idle")
+	elif Input.is_action_just_pressed("burst") and stats.get_actionable() and stats.get_burstCharges() > 0:
+		transitioned.emit(self, "burst")
 	elif Input.is_action_just_pressed("dash") and stats.get_dash():
 		transitioned.emit(self, "dash")
 	elif Input.is_action_just_pressed("jump") and stats.get_actionable():

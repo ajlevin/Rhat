@@ -6,6 +6,7 @@ extends NemState
 
 ### Sets vertical velocity to 0 and begins dash sequence
 func enter() -> void:
+	print("Nem Now Dashing")
 	var direction : Vector2 = (Vector2(500, 317) - nemesis.global_position).normalized() \
 		if down.is_colliding() \
 		else ndc.getPlayerDirection()

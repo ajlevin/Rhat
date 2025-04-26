@@ -64,6 +64,8 @@ func state_check(direction : Vector2) -> void:
 		(!stats.actionable and stats.wallKicking == 0) or \
 		player.velocity.y >= 0:
 		transitioned.emit(self, "airborne")
+	elif Input.is_action_just_pressed("burst") and stats.get_actionable() and stats.get_burstCharges() > 0:
+		transitioned.emit(self, "burst")
 	elif Input.is_action_just_pressed("dash") and stats.get_dash():
 		transitioned.emit(self, "dash")
 	elif Input.is_action_just_pressed("attack") and stats.get_actionable():

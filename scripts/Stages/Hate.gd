@@ -36,6 +36,8 @@ func enter() -> void:
 	lSpikes.set_damage(1)
 	lSpikes.set_collision_layer_value(3, true)
 	lSpikes.set_collision_mask_value(6, true)
+	lSpikes.set_collision_layer_value(5, true)
+	lSpikes.set_collision_mask_value(4, true)
 	
 	lSpikeSpriteA = Sprite2D.new()
 	lSpikeSpriteA.texture = load("res://assets/Holders/crystals_black/crystal_black1.png")
@@ -57,6 +59,8 @@ func enter() -> void:
 	rSpikes.set_damage(1)
 	rSpikes.set_collision_layer_value(3, true)
 	rSpikes.set_collision_mask_value(6, true)
+	rSpikes.set_collision_layer_value(5, true)
+	rSpikes.set_collision_mask_value(4, true)
 
 	rSpikeSpriteA = Sprite2D.new()
 	rSpikeSpriteA.texture = load("res://assets/Holders/crystals_black/crystal_black2.png")

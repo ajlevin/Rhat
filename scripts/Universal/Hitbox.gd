@@ -17,3 +17,6 @@ func disable() -> void:
 
 func enable() -> void:
 	shape.disabled = false
+
+func is_disabled() -> bool:
+	return shape.disabled
