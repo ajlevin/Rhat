@@ -46,7 +46,7 @@ func is_invincible() -> bool:
 func tick_damage(dmg : int, hitboxId : int) -> void:
 	var curHitbox : Hitbox = instance_from_id(hitboxId)
 	
-	if !curHitbox.is_disabled():
+	if curHitbox != null and !curHitbox.is_disabled():
 		stats.health -= dmg
 		set_damage_timer(dmg, hitboxId)
 

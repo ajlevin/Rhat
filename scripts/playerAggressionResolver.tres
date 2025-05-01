@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PlayerAggressionResolver" load_steps=2 format=3 uid="uid://qa0pyfu3dfrw"]
+
+[ext_resource type="Script" path="res://scripts/PlayerAggressionResolver.gd" id="1_ccro8"]
+
+[resource]
+script = ExtResource("1_ccro8")
+aggressionMods = {
+"AirborneB": -1.0,
+"AirborneF": 1.0,
+"Blast": -2.0,
+"Burst": 5.0,
+"Counter": -5.0,
+"DashB": -3.0,
+"DashF": 3.0,
+"Idle": -1.0,
+"JumpB": -1.0,
+"JumpF": 2.0,
+"Melee": 8.0,
+"OnWall": -1.0,
+"RunB": -2.0,
+"RunF": 1.0
+}

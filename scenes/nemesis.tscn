@@ -25,9 +25,17 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o8wx1"]
 shader = ExtResource("3_qfyko")
-shader_parameter/target_color = null
-shader_parameter/new_color = null
-shader_parameter/tolerance = null
+shader_parameter/original_color1 = Color(0.619608, 0, 0.223529, 1)
+shader_parameter/original_color2 = Color(0.576471, 0.00392157, 0.207843, 1)
+shader_parameter/original_color3 = Color(0.533333, 0.00392157, 0.192157, 1)
+shader_parameter/original_color4 = Color(0, 0, 0, 1)
+shader_parameter/original_color5 = Color(1, 0.854902, 0.8, 1)
+shader_parameter/new_color1 = Color(0.150512, 0.251024, 0.357489, 1)
+shader_parameter/new_color2 = Color(0.226493, 0.202528, 0.426955, 1)
+shader_parameter/new_color3 = Color(0.182716, 0.167719, 0.288559, 1)
+shader_parameter/new_color4 = Color(0, 0, 0, 1)
+shader_parameter/new_color5 = null
+shader_parameter/tolerance = 0.01
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0cypo"]
 atlas = ExtResource("3_hdlux")
@@ -589,6 +597,54 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_m8xgw"]
+resource_name = "counter"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NemStateMachine/NemCounter")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.833333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"state_check"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("NemStateMachine/NemCounter")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"enableCounter"
+}, {
+"args": [],
+"method": &"disableCounter"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_s3lax"]
 resource_name = "dash"
 length = 0.2
@@ -706,54 +762,6 @@ tracks/0/keys = {
 resource_name = "Run"
 length = 0.001
 
-[sub_resource type="Animation" id="Animation_m8xgw"]
-resource_name = "counter"
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [&"", 1.0, false],
-"method": &"play"
-}]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("NemStateMachine/NemCounter")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.833333),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"state_check"
-}]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("NemStateMachine/NemCounter")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"enableCounter"
-}, {
-"args": [],
-"method": &"disableCounter"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_20523"]
 _data = {
 "RESET": SubResource("Animation_gnnj4"),
@@ -850,11 +858,13 @@ position = Vector2(0, -18)
 shape = SubResource("CapsuleShape2D_ol718")
 
 [node name="collision" type="CollisionShape2D" parent="."]
+visible = false
 light_mask = 2
 position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_3s36k")
 
 [node name="counter" type="Area2D" parent="."]
+visible = false
 collision_layer = 32
 collision_mask = 4
 
@@ -863,6 +873,7 @@ position = Vector2(18.5, 2.5)
 shape = SubResource("RectangleShape2D_52fan")
 
 [node name="counter2" type="Area2D" parent="."]
+visible = false
 collision_layer = 32
 collision_mask = 4
 
@@ -916,6 +927,7 @@ collide_with_areas = true
 target_position = Vector2(0, -75)
 
 [node name="Hitboxes" type="Node2D" parent="."]
+visible = false
 
 [node name="melee" type="Area2D" parent="Hitboxes"]
 collision_layer = 16
@@ -1003,4 +1015,5 @@ debug_path_custom_color = Color(0.813247, 0.198533, 0.409809, 1)
 
 [connection signal="health_changed" from="stats" to="NemStateMachine" method="_on_health_changed"]
 [connection signal="health_zero" from="stats" to="NemStateMachine" method="_on_health_zero"]
+[connection signal="damaged" from="hurtbox" to="." method="_on_hurtbox_damaged"]
 [connection signal="timeout" from="Timers/DashResetTimer" to="NemStateMachine/NemDash" method="_on_dash_reset_timer_timeout"]

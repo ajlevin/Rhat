@@ -42,7 +42,7 @@ func physics_update(_delta : float) -> void:
 		elif randNum < 0.95: # Jump
 			ndc.setCurInput(ndc.NemInput.Jump)
 		else: # Blast
-			ndc.setCurInput(ndc.NemInput.Blast)
+			ndc.setCurInput(ndc.NemInput.Blast) if ndc.withinBlastRange() else ndc.setCurInput(ndc.NemInput.Run)
 	elif ndc.playerApproaching(): # should be move with dash subset for rand weighting
 		# print("player approaching")
 		if randNum < 0.1: # Dash
@@ -60,7 +60,7 @@ func physics_update(_delta : float) -> void:
 		elif randNum < 0.95: # Dash
 			ndc.setCurInput(ndc.NemInput.Dash)
 		else: # Blast
-			ndc.setCurInput(ndc.NemInput.Blast)
+			ndc.setCurInput(ndc.NemInput.Blast) if ndc.withinBlastRange() else ndc.setCurInput(ndc.NemInput.Run)
 
 func on_projectile_created(blast : Projectile) -> void:
 	# blast.projectileCreated.connect()

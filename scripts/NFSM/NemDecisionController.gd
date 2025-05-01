@@ -10,7 +10,9 @@ extends Node
 @onready var down_right: RayCast2D = $"../Rays/downRight"
 @onready var down: RayCast2D = $"../Rays/down"
 @onready var ceiling: RayCast2D = $"../Rays/ceiling"
+
 @onready var player : Player = get_tree().get_first_node_in_group("Player")
+@export var log_file_path = "user://stage_data.csv"
 
 @export var targetDir : Vector2
 enum NemInput {
@@ -65,7 +67,7 @@ func withinAttackRange() -> int:
 		return 0
 
 func withinBlastRange() -> bool:
-	return abs(player.global_position.y - nemesis.global_position.y) < 20
+	return abs(player.global_position.y - nemesis.global_position.y) < 80
 
 func incomingBlast() -> Vector2:
 	var blast : Projectile = get_tree().get_first_node_in_group("projectile")
@@ -83,6 +85,15 @@ func playerIsGrounded() -> bool:
 
 func getPlayerDirection() -> Vector2:
 	return nemesis.global_position.direction_to(nav_agent.get_next_path_position())
+
+func getPlayerDistance() -> float:
+	return nemesis.global_position.dot(player.global_position)
+
+func getPastNemBehaviors() -> Array:
+	return nemesis.getStateRecord()
+	
+func getCurrentReward() -> int:
+	return nemesis.getPeriodReward()
 
 func requiresJump() -> bool:
 	return !ceiling.is_colliding() \
@@ -106,7 +117,42 @@ func on_mood_change(temperment, newTempermentName) -> void:
 		curTemperment = newTemperment
 
 func _process(delta : float) -> void:
+	nemesis.updateStateRecord(nfsm.curState)
 	curTemperment.update(delta)
 
 func _physics_process(delta : float) -> void:
 	curTemperment.physics_update(delta)
+	log_current_state()
+
+func log_current_state():
+	#var file = File.new()
+	#if !file.exists(log_file_path):
+		#file.open(log_file_path, File.WRITE)
+		#file.store_string("player_aggression,distance_to_enemy,past_behaviors,action,reward\n")
+	#else:
+		#file.open(log_file_path, File.APPEND)
+
+	# Normalize inputs
+	#var normalized_distance = distance_to_enemy / MAX_DISTANCE  # Replace MAX_DISTANCE with actual max
+	#var normalized_player_aggression = player_aggression / 100.0  # 0-100 → 0-1
+#
+	## Encode past behaviors as a string (e.g., "0,1,0,0,2,...")
+	#var past_behavior_str = ""
+	#for behavior in past_nem_behaviors:
+		#past_behavior_str += str(behavior) + ","
+#
+	## Current action (aggression level) and reward (from damage metric)
+	#var current_action = aggression_level
+	#var current_reward = get_current_reward()  # Implement this function to track damage
+#
+	#file.store_string("%s, %s, %s, %s, %s \n" % \
+		#[normalized_player_aggression, \
+		#normalized_distance, \
+		#past_behavior_str, \
+		#current_action, \
+		#current_reward])
+	#file.close()
+	pass
+
+#func get_current_reward() -> int:
+	#return 0

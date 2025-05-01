@@ -13,7 +13,7 @@ func enter() -> void:
 		animated_sprite.flip_h = true if direction.x < 0 else false
 		
 	effect_sprite.flip_h = animated_sprite.flip_h
-	effect_sprite.position = Vector2(15, 29) if animated_sprite.flip_h else Vector2(-15, 29)
+	effect_sprite.position = Vector2(15, 17) if animated_sprite.flip_h else Vector2(-15, 17)
 
 	player.velocity.y = 0
 	player.velocity.x = stats.DASH_VELOCITY * direction.x
@@ -22,7 +22,8 @@ func enter() -> void:
 	
 ### Begins dash cooldown timer
 func exit() -> void:
-		dash_reset_timer.start(stats.DASH_RESET_DURATION)
+	effect_sprite.play("blank")
+	dash_reset_timer.start(stats.DASH_RESET_DURATION)
 
 func update(delta : float) -> void:
 	pass

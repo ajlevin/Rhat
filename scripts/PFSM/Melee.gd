@@ -11,7 +11,7 @@ func enter() -> void:
 	animation_player.play("melee")
 	
 func exit() -> void:
-	pass
+	effect_sprite.play("blank")
 	
 func update(_delta : float) -> void:
 	pass
@@ -28,6 +28,9 @@ func physics_update(delta : float) -> void:
 		melee.scale.x = -1
 	else:
 		melee.scale.x = -1 if animated_sprite.flip_h else 1
+	
+	effect_sprite.flip_h = animated_sprite.flip_h
+	effect_sprite.position = Vector2(-20, 10) if animated_sprite.flip_h else Vector2(20, 10)
 	
 	if stats.actionable:
 		player.velocity.x = direction.x * stats.SPEED
