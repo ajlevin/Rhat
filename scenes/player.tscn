@@ -1400,8 +1400,8 @@ script = ExtResource("8_5mwc2")
 script = ExtResource("13_scs5x")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
 [connection signal="health_changed" from="stats" to="." method="_on_health_changed"]
+[connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
 [connection signal="health_changed" from="stats" to="StateMachine" method="_on_health_changed"]
 [connection signal="health_changed" from="stats" to="StateMachine/Hit" method="_on_stats_health_changed"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_stats_health_zero"]
