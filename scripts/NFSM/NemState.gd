@@ -6,6 +6,7 @@ signal transitioned
 @onready var nemesis : Nemesis = $"../.."
 @onready var stats : NemStats = $"../../stats"
 @onready var animated_sprite = $"../../AnimatedSprite"
+@onready var effect_sprite: AnimatedSprite2D = $"../../EffectSprite"
 @onready var animation_player = $"../../AnimationPlayer"
 @onready var nav_agent: NavigationAgent2D = $"../../NavAgent"
 @onready var ndc: NemDecisionController = $"../../NemDecisionController"

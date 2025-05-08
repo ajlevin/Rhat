@@ -9,8 +9,8 @@ const STATE_RECORD_COUNT = 10
 @onready var nav_agent: NavigationAgent2D = $NavAgent
 @onready var stats: NemStats = $stats
 
-var periodDamage : int = 0 : get = getPeriodDamage, set = setPeriodDamage
-var stateRecord : Array = [] : get = getStateRecord
+@onready var periodDamage : int = 0 : get = getPeriodDamage, set = setPeriodDamage
+@onready var stateRecord : Array = [] : get = getStateRecord
 
 func _ready() -> void:
 	nav_agent.path_desired_distance = 40
@@ -48,10 +48,13 @@ func getStateRecord() -> Array:
 func updateStateRecord(newState : NemState) -> void:
 	if len(stateRecord) >= STATE_RECORD_COUNT:
 		stateRecord.pop_front()
-	stateRecord.push_back(newState)
+	stateRecord.push_back(newState.name)
 
 func getPlayerAggression() -> float:
 	return player.getPeriodAggression()
 
 func _on_hurtbox_damaged(damage: int) -> void:
 	periodDamage += damage
+
+func _on_log_timer_timeout() -> void:
+	print(stateRecord)

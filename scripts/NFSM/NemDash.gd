@@ -12,6 +12,9 @@ func enter() -> void:
 		else ndc.getPlayerDirection()
 	if direction.x <= 0.1:
 		direction.x = -1 if animated_sprite.flip_h else 1
+		
+	effect_sprite.flip_h = animated_sprite.flip_h
+	effect_sprite.position = Vector2(15, 17) if animated_sprite.flip_h else Vector2(-15, 17)
 
 	nemesis.velocity.y = 0
 	nemesis.velocity.x = stats.DASH_VELOCITY * direction.x
@@ -20,7 +23,8 @@ func enter() -> void:
 	
 ### Begins dash cooldown timer
 func exit() -> void:
-		dash_reset_timer.start(stats.DASH_RESET_DURATION)
+	effect_sprite.play("blank")
+	dash_reset_timer.start(stats.DASH_RESET_DURATION)
 
 func update(delta : float) -> void:
 	pass

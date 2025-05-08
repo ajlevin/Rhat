@@ -8,7 +8,6 @@ var hitVector : Vector2
 func enter() -> void:
 	print("Nem Now Hit")
 	animation_player.play("iFrames")
-	stats.wasOnFloor = false
 	
 	# handles player knockback on damage
 	# ToDo: Tune to lurche at the start then slow instead of a linear bump

@@ -53,9 +53,9 @@ func on_child_transition(state, newStateName) -> void:
 ### Waits for nemesis death signal and switches to "dead" state
 func _on_health_zero() -> void:
 	print("Got death signal")
-	on_child_transition(curState, "dead")
-
+	on_child_transition(curState, "nemdead")
+	
 ### Waits for nemesis damaged and switches to "hit" state
 func _on_health_changed(diff) -> void:
 	if diff < 0:
-		on_child_transition(curState, "hit")
+		on_child_transition(curState, "nemhit")

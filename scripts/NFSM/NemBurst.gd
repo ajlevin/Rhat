@@ -24,8 +24,12 @@ func enter() -> void:
 		animated_sprite.flip_h = false
 	elif direction.x < 0 or animated_sprite.flip_h:
 		animated_sprite.flip_h = true
+		
+	effect_sprite.flip_h = animated_sprite.flip_h
+	effect_sprite.position = Vector2(0, 0)
 
 func exit() -> void:
+	effect_sprite.play("blank")
 	burst.disable()
 
 func update(_delta : float) -> void:

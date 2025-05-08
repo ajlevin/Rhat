@@ -24,8 +24,13 @@ func enter() -> void:
 		animated_sprite.flip_h = true
 		counterDir = -1
 		counter.scale.x = -1
+		
+	effect_sprite.flip_h = animated_sprite.flip_h
+	effect_sprite.rotation = 9 if animated_sprite.flip_h else 10
+	effect_sprite.position = Vector2(-20, 0) if animated_sprite.flip_h else Vector2(20, 0)
 
 func exit() -> void:
+	effect_sprite.play("blank")
 	pass
 
 func update(_delta : float) -> void:
@@ -58,6 +63,7 @@ func enableCounter() -> void:
 func disableCounter() -> void:
 	# disable visual
 	stats.set_immortality(false)
+	effect_sprite.rotation = 0
 	stats.countering = false
 	counter_shape.disabled = true
 
