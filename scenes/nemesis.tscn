@@ -973,6 +973,20 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_i4fx7"]
 resource_name = "death"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"death", 1.0, false],
+"method": &"play"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_xo4vd"]
 resource_name = "hitBlink"
@@ -1112,7 +1126,7 @@ script = ExtResource("2_cmh1y")
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_o8wx1")
 sprite_frames = SubResource("SpriteFrames_vgwrt")
-animation = &"counter"
+animation = &"melee"
 autoplay = "idle"
 
 [node name="EffectSprite" type="AnimatedSprite2D" parent="."]
@@ -1290,10 +1304,12 @@ script = ExtResource("23_urrqe")
 script = ExtResource("24_wpsnf")
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
+simplify_path = true
 debug_enabled = true
 debug_path_custom_color = Color(0.813247, 0.198533, 0.409809, 1)
 
 [connection signal="health_changed" from="stats" to="NemStateMachine" method="_on_health_changed"]
+[connection signal="health_zero" from="stats" to="." method="_on_nem_health_zero"]
 [connection signal="health_zero" from="stats" to="NemStateMachine" method="_on_health_zero"]
 [connection signal="damaged" from="hurtbox" to="." method="_on_hurtbox_damaged"]
 [connection signal="timeout" from="Timers/DashResetTimer" to="NemStateMachine/NemDash" method="_on_dash_reset_timer_timeout"]

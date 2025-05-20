@@ -24,3 +24,6 @@ func physics_update(_delta : float) -> void:
 
 func disableMap() -> void:
 	pass
+
+func begin_transition() -> void:
+	pass

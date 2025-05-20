@@ -6,9 +6,8 @@ extends Zone
 @onready var hate_nav: NavigationRegion2D = $"../../NavLayers/HateNav"
 @onready var hitboxNode : Resource = preload("res://scenes/Universal/hitbox.tscn")
 @onready var collisionNode : Resource = preload("res://scenes/Universal/game_controller.tscn")
-@onready var nemNode : Resource = preload("res://scenes/nemesis.tscn")
+@onready var nemesis: Nemesis = $"../../Nemesis"
 
-@export var nemesis : Nemesis
 @export var lSpikes : Hitbox
 @export var rSpikes : Hitbox
 @export var lSpikeSpriteA : Sprite2D
@@ -77,9 +76,7 @@ func enter() -> void:
 	add_child(lSpikes)
 	add_child(rSpikes)
 	
-	nemesis = nemNode.instantiate()
 	nemesis.global_position = Vector2(584, 317)
-	add_child(nemesis) 
 	
 ### Disable the Hate realm TileMap
 func exit() -> void:
@@ -97,10 +94,12 @@ func exit() -> void:
 	rSpikeSpriteA.queue_free()
 	rSpikeSpriteB.queue_free()
 	
-	nemesis.queue_free()
-	
 func update(_delta : float) -> void:
 	pass
+	
+func begin_transition():
+	zone_transitioned.emit(self, "identity")
+	print("transition out of Hate")
 	
 ### TESTING -- USED TO SWAP BETWEEN REALMS
 func physics_update(_delta : float) -> void:

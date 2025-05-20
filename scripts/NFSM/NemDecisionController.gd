@@ -27,6 +27,21 @@ enum NemInput {
 	Burst
 }
 
+const NemBehaviorEncodings : Dictionary = {
+	"NemAirborne" : "0",
+	"NemBlast" : "1",
+	"NemBurst" : "2",
+	"NemCounter" : "3",
+	"NemDash" : "4",
+	"NemDead" : "5",
+	"NemHit" : "6",
+	"NemIdle" : "7",
+	"NemJump" : "8",
+	"NemMelee" : "10",
+	"NemOnWall" : "11",
+	"NemRun" : "12"
+}
+
 @export var initialTemperment : Temperment
 @export var curTemperment : Temperment
 var temperments : Dictionary = {}
@@ -92,6 +107,9 @@ func getPlayerDistance() -> float:
 func getPastNemBehaviors() -> Array:
 	return nemesis.getStateRecord()
 	
+func mapToNemBehaviorEncodings(behavior : String) -> String:
+	return NemBehaviorEncodings.get(behavior)
+	
 func getCurrentReward() -> int:
 	return nemesis.getPeriodReward()
 
@@ -125,7 +143,7 @@ func _physics_process(delta : float) -> void:
 	log_current_state()
 
 func log_current_state():
-	#var file = File.new()
+	var file : FileAccess
 	#if !file.exists(log_file_path):
 		#file.open(log_file_path, File.WRITE)
 		#file.store_string("player_aggression,distance_to_enemy,past_behaviors,action,reward\n")
@@ -137,20 +155,21 @@ func log_current_state():
 	#var normalized_player_aggression = player_aggression / 100.0  # 0-100 → 0-1
 #
 	## Encode past behaviors as a string (e.g., "0,1,0,0,2,...")
-	#var past_behavior_str = ""
-	#for behavior in past_nem_behaviors:
-		#past_behavior_str += str(behavior) + ","
+	
 #
 	## Current action (aggression level) and reward (from damage metric)
 	#var current_action = aggression_level
 	#var current_reward = get_current_reward()  # Implement this function to track damage
-#
-	#file.store_string("%s, %s, %s, %s, %s \n" % \
-		#[normalized_player_aggression, \
-		#normalized_distance, \
-		#past_behavior_str, \
-		#current_action, \
-		#current_reward])
+
+	var logEntry : PackedStringArray = PackedStringArray([
+		player.getPeriodAggression(), # player aggression
+		getPlayerDistance(), # distance
+		",".join(PackedStringArray(getPastNemBehaviors())), # past nem states
+		getPastNemBehaviors().map(mapToNemBehaviorEncodings), # past nem states encoded numerically
+		getCurInput(), # current nem input
+		getCurrentReward() # current nem reward value
+	])
+	#file.store_csv_line(logEntry)
 	#file.close()
 	pass
 

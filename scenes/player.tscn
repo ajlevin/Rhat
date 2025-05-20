@@ -1402,12 +1402,12 @@ script = ExtResource("8_5mwc2")
 script = ExtResource("13_scs5x")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
 [connection signal="health_changed" from="stats" to="." method="_on_health_changed"]
+[connection signal="health_changed" from="stats" to="." method="_on_stats_health_changed"]
 [connection signal="health_changed" from="stats" to="StateMachine" method="_on_health_changed"]
 [connection signal="health_changed" from="stats" to="StateMachine/Hit" method="_on_stats_health_changed"]
-[connection signal="health_zero" from="stats" to="StateMachine" method="_on_stats_health_zero"]
 [connection signal="health_zero" from="stats" to="StateMachine" method="_on_health_zero"]
+[connection signal="health_zero" from="stats" to="StateMachine" method="_on_stats_health_zero"]
 [connection signal="area_entered" from="hurtbox" to="StateMachine/Counter" method="_on_hurtbox_area_entered"]
 [connection signal="damaged" from="hurtbox" to="." method="_on_hurtbox_damaged"]
 [connection signal="area_entered" from="counter" to="StateMachine/Counter" method="_on_counter_area_entered"]
