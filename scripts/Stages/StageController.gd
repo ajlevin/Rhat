@@ -2,8 +2,10 @@ class_name StageController
 extends Node
 
 @onready var player: Player = $"../player"
+@onready var nemesis: Nemesis = $"../Nemesis"
 @onready var backgrounds: Node2D = $"../Backgrounds"
 @onready var nav_layers: Node2D = $"../NavLayers"
+@onready var transition_timer: Timer = $"../TransitionTimer"
 
 @export var initialZone : Zone
 @export var curZone : Zone
@@ -12,6 +14,8 @@ var zones : Dictionary = {}
 ### Collect all existing zones and set initial zone
 func _ready() -> void:
 	# Disables all backgrounds
+	nemesis.nemDied.connect(on_nem_death)
+	
 	for background : Node2D in backgrounds.get_children():
 		background.visible = false
 		
@@ -66,3 +70,8 @@ func on_zone_transition(zone, newZoneName) -> void:
 	# handle new zone entry and update current zone
 	newZone.enter()
 	curZone = newZone
+	
+func on_nem_death() -> void:
+	if !transition_timer.timeout.is_connected(curZone.begin_transition):
+		transition_timer.timeout.connect(curZone.begin_transition.bind())
+	transition_timer.start()

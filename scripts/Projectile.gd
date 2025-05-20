@@ -56,6 +56,7 @@ func create(pos : Vector2, direction : int, cLayer : int, cMask : int) -> void:
 	fired = true
 	animated_sprite = $AnimatedSprite
 	animated_sprite.z_index = 1
+	animated_sprite.flip_h = true if direction == -1 else false
 	
 	hitbox = $Hitbox
 	hitbox.collision_layer = 0

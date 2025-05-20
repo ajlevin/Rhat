@@ -1,10 +1,11 @@
-[gd_scene load_steps=33 format=4 uid="uid://bvp3enogvdeur"]
+[gd_scene load_steps=34 format=4 uid="uid://bvp3enogvdeur"]
 
 [ext_resource type="Script" path="res://scripts/Universal/GameController.gd" id="1_q4x0s"]
 [ext_resource type="Script" path="res://scripts/Stages/StageController.gd" id="2_ao235"]
 [ext_resource type="PackedScene" uid="uid://cahhif8t6eo03" path="res://scenes/player.tscn" id="2_aov34"]
 [ext_resource type="Script" path="res://scripts/Stages/Identity.gd" id="3_0or5q"]
 [ext_resource type="Script" path="res://scripts/Universal/CameraController.gd" id="3_yrlqv"]
+[ext_resource type="PackedScene" uid="uid://bfjo0gokd7mlj" path="res://scenes/nemesis.tscn" id="4_23c52"]
 [ext_resource type="Script" path="res://scripts/Stages/Anxiety.gd" id="4_lbvqa"]
 [ext_resource type="Script" path="res://scripts/Stages/Hate.gd" id="5_hs7r0"]
 [ext_resource type="Texture2D" uid="uid://xqi0u3jqx835" path="res://assets/Main/rhatCanvas.png" id="8_x2lia"]
@@ -1316,6 +1317,10 @@ editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource("3_yrlqv")
 
+[node name="Nemesis" parent="." instance=ExtResource("4_23c52")]
+z_index = 5
+position = Vector2(573, 317)
+
 [node name="Stages" type="Node" parent="."]
 script = ExtResource("2_ao235")
 
@@ -1348,17 +1353,15 @@ navigation_enabled = false
 [node name="NavLayers" type="Node2D" parent="."]
 
 [node name="IdentityNav" type="NavigationRegion2D" parent="NavLayers"]
-visible = false
 scale = Vector2(1.03714, 1.1798)
 navigation_polygon = ExtResource("11_0a73c")
-enabled = false
 
 [node name="AnxietyNav" type="NavigationRegion2D" parent="NavLayers"]
 visible = false
 navigation_polygon = ExtResource("12_iacp4")
-enabled = false
 
 [node name="HateNav" type="NavigationRegion2D" parent="NavLayers"]
+visible = false
 navigation_polygon = ExtResource("13_salwd")
 
 [node name="killzone" parent="." instance=ExtResource("10_ls8eo")]
@@ -1469,3 +1472,7 @@ scroll_offset = Vector2(288, 162)
 [node name="BigCloud" type="Sprite2D" parent="Backgrounds/HatePlax/PFront"]
 texture = ExtResource("11_xao78")
 flip_h = true
+
+[node name="TransitionTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
