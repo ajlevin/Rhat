@@ -21,7 +21,7 @@ const BURST_TIMER_DURATION : float = 5.0
 var burstTimer : Timer = null
 
 func _ready() -> void:
-	maxHealth = 5
+	maxHealth = 10
 	immortal = true
 	health = maxHealth
 

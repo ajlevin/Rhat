@@ -5,7 +5,8 @@ extends Zone
 @onready var anxiety_plax: Node2D = $"../../Backgrounds/AnxietyPlax"
 @onready var slimeNode : Resource = preload("res://scenes/slime.tscn")
 @onready var anxiety_nav: NavigationRegion2D = $"../../NavLayers/AnxietyNav"
-@onready var nemesis: Nemesis = $"../../Nemesis"
+
+@export var slime : Slime
 
 ### Enable the Anxiety realm TileMap
 func enter() -> void:
@@ -14,7 +15,9 @@ func enter() -> void:
 	anxiety_plax.visible = true
 	anxiety_nav.enabled = true
 	
-	nemesis.global_position = Vector2(584, 317)
+	slime = slimeNode.instantiate()
+	slime.global_position = Vector2(374, 180)
+	add_child(slime)
 
 ### Disable the Anxiety realm TileMap
 func exit() -> void:
@@ -22,14 +25,13 @@ func exit() -> void:
 	anxiety_map.enabled = false
 	anxiety_plax.visible = false
 	anxiety_nav.enabled = true
-
+	
+	if slime != null:
+		slime.queue_free()
+	
 func update(_delta : float) -> void:
 	pass
-
-func begin_transition():
-	zone_transitioned.emit(self, "hate")
-	print("transition out of Anxiety")
-
+	
 ### TESTING -- USED TO SWAP BETWEEN REALMS
 func physics_update(_delta : float) -> void:
 	if Input.is_action_just_pressed("damage"):

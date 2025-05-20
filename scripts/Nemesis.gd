@@ -4,8 +4,6 @@ extends CharacterBody2D
 const SHADER = preload("res://scripts/player.gdshader")
 const STATE_RECORD_COUNT = 10
 
-signal nemDied
-
 @onready var player_tracker: RayCast2D = $Rays/playerTracker
 @onready var player : Player = get_tree().get_first_node_in_group("Player")
 @onready var nav_agent: NavigationAgent2D = $NavAgent
@@ -45,9 +43,6 @@ func getPeriodReward() -> int:
 	return player.getPeriodDamage() - getPeriodDamage()
 
 func getStateRecord() -> Array:
-	return stateRecord
-
-func getStateRecordEncodings() -> Array:
 	return stateRecord
 
 func updateStateRecord(newState : NemState) -> void:

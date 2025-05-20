@@ -5,7 +5,7 @@ extends NemState
 func enter() -> void:
 	print("Nem Now Dead")
 	
-	nemesis.nemDied.emit()
+	stats.actionable = false
 	nemesis.velocity.x = 0
 	animation_player.play("death")
 	
