@@ -26,12 +26,10 @@ func actor_setup():
 
 ### Update raycast tracking player location and distance
 func _process(delta: float) -> void:
-	player_tracker.target_position = \
-		global_position.direction_to(player.global_position) * 30
+	player_tracker.target_position = global_position.direction_to(player.global_position) * 30
 
 ### Moves nemesis based on currently set values each tick
 func _physics_process(_delta : float) -> void:
-	# global_position.direction_to(nav_agent.get_next_path_position()) * stats.SPEED
 	# nav_agent.get_next_path_position()
 	move_and_slide()
 

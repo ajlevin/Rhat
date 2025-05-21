@@ -21,7 +21,8 @@ func enter() -> void:
 	hate_map.enabled = true
 	hate_plax.visible = true
 	hate_nav.enabled = true
-	hate_nav.navigation_layers = 1
+	hate_nav.navigation_layers = 4
+	nemesis.nav_agent.navigation_layers = 4
 	
 	var rect : RectangleShape2D = RectangleShape2D.new()
 	rect.size = Vector2(90, 64)

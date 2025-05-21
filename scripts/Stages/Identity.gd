@@ -12,6 +12,8 @@ func enter() -> void:
 	identity_map.enabled = true
 	identity_plax.visible = true
 	identity_nav.enabled = true
+	identity_nav.navigation_layers = 1
+	nemesis.nav_agent.navigation_layers = 1
 	
 	nemesis.global_position = Vector2(584, 317)
 	

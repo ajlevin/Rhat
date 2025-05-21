@@ -13,6 +13,8 @@ func enter() -> void:
 	anxiety_map.enabled = true
 	anxiety_plax.visible = true
 	anxiety_nav.enabled = true
+	anxiety_nav.navigation_layers = 2
+	nemesis.nav_agent.navigation_layers = 2
 	
 	nemesis.global_position = Vector2(584, 317)
 

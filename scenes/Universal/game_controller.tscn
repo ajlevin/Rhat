@@ -1353,15 +1353,12 @@ navigation_enabled = false
 [node name="NavLayers" type="Node2D" parent="."]
 
 [node name="IdentityNav" type="NavigationRegion2D" parent="NavLayers"]
-scale = Vector2(1.03714, 1.1798)
 navigation_polygon = ExtResource("11_0a73c")
 
 [node name="AnxietyNav" type="NavigationRegion2D" parent="NavLayers"]
-visible = false
 navigation_polygon = ExtResource("12_iacp4")
 
 [node name="HateNav" type="NavigationRegion2D" parent="NavLayers"]
-visible = false
 navigation_polygon = ExtResource("13_salwd")
 
 [node name="killzone" parent="." instance=ExtResource("10_ls8eo")]
