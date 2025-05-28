@@ -9,7 +9,6 @@ func _ready() -> void:
 	counter_shape.disabled = true
 
 func enter() -> void:
-	print("Nem Now Countering")
 	nemesis.velocity.x *= 0.4
 	nemesis.velocity.y *= 0.2
 	animation_player.play("counter")

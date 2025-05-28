@@ -3,9 +3,7 @@ extends NemState
 
 @onready var down: RayCast2D = $"../../Rays/down"
 
-func enter() -> void:
-	print("Nem Now Airborne")
-	
+func enter() -> void:	
 	if !animation_player.current_animation == "iFrames":
 		animation_player.play("RESET")
 

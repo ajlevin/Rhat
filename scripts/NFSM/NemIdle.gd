@@ -3,7 +3,6 @@ extends NemState
 
 ### Resets all velocities and buffering stats to defaults
 func enter() -> void:
-	print("Nem Now Idle")
 	nemesis.velocity.x = 0
 	nemesis.velocity.y = 0
 

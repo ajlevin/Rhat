@@ -7,7 +7,6 @@ extends NemState
 @onready var locking : bool = false
 
 func enter() -> void:
-	print("Nem Now Blasting")
 	nemesis.velocity.x = 0
 	nemesis.velocity.y *= 0.2
 	animation_player.play("blast")

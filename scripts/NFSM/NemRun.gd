@@ -2,7 +2,6 @@ class_name NemRun
 extends NemState
 
 func enter() -> void:
-	print("Nem Now Running")
 	nemesis.velocity.y = 0
 	stats.extraJump = true
 	

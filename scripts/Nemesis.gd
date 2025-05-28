@@ -2,7 +2,7 @@ class_name Nemesis
 extends CharacterBody2D
 
 const SHADER = preload("res://scripts/player.gdshader")
-const STATE_RECORD_COUNT = 10
+const STATE_RECORD_COUNT = 60
 
 signal nemDied
 
@@ -10,6 +10,9 @@ signal nemDied
 @onready var player : Player = get_tree().get_first_node_in_group("Player")
 @onready var nav_agent: NavigationAgent2D = $NavAgent
 @onready var stats: NemStats = $stats
+@onready var nsm: NemStateMachine = $NemStateMachine
+@onready var ndc: NemDecisionController = $NemDecisionController
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @onready var periodDamage : int = 0 : get = getPeriodDamage, set = setPeriodDamage
 @onready var stateRecord : Array = [] : get = getStateRecord
@@ -61,3 +64,8 @@ func _on_hurtbox_damaged(damage: int) -> void:
 
 func _on_log_timer_timeout() -> void:
 	print(stateRecord)
+	ndc.log_current_state()
+
+func reviveNem() -> void:
+	animation_player.play("RESET")
+	nsm.revive()

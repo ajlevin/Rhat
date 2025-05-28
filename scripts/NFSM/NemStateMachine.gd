@@ -1,6 +1,7 @@
 class_name NemStateMachine
 extends Node
 
+@onready var stats: NemStats = $"../stats"
 @export var initialState : NemState
 var curState : NemState
 var states : Dictionary = {}
@@ -59,3 +60,12 @@ func _on_health_zero() -> void:
 func _on_health_changed(diff) -> void:
 	if diff < 0:
 		on_child_transition(curState, "nemhit")
+
+func revive() -> void:
+	stats.health = stats.maxHealth
+	if initialState:
+		initialState.enter()
+		curState = initialState
+	else:
+		states["nemidle"].enter()
+		curState = states["nemidle"]

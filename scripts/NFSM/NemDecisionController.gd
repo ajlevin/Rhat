@@ -12,7 +12,9 @@ extends Node
 @onready var ceiling: RayCast2D = $"../Rays/ceiling"
 
 @onready var player : Player = get_tree().get_first_node_in_group("Player")
-@export var log_file_path = "user://stage_data.csv"
+@onready var log_file_path = "res://logs/agrex_data" + \
+	Time.get_datetime_string_from_system(true).replace(":", "").replace("-","") \
+	+ ".txt"
 
 @export var targetDir : Vector2
 enum NemInput {
@@ -62,6 +64,8 @@ func _ready() -> void:
 		curTemperment = initialTemperment
 	else:
 		curTemperment = temperments["neutral"]
+		
+	print(log_file_path)
 
 func getLastInput() -> NemInput:
 	return lastInput
@@ -72,6 +76,9 @@ func setCurInput(newInput : NemInput) -> void:
 
 func getCurInput() -> NemInput:
 	return curInput
+
+func getCurInputString() -> String:
+	return NemInput.keys()[curInput]
 
 func withinAttackRange() -> int:	
 	if player_tracker.is_colliding():
@@ -140,38 +147,27 @@ func _process(delta : float) -> void:
 
 func _physics_process(delta : float) -> void:
 	curTemperment.physics_update(delta)
-	log_current_state()
 
 func log_current_state():
 	var file : FileAccess
-	#if !file.exists(log_file_path):
-		#file.open(log_file_path, File.WRITE)
-		#file.store_string("player_aggression,distance_to_enemy,past_behaviors,action,reward\n")
-	#else:
-		#file.open(log_file_path, File.APPEND)
-
-	# Normalize inputs
-	#var normalized_distance = distance_to_enemy / MAX_DISTANCE  # Replace MAX_DISTANCE with actual max
-	#var normalized_player_aggression = player_aggression / 100.0  # 0-100 → 0-1
-#
-	## Encode past behaviors as a string (e.g., "0,1,0,0,2,...")
 	
-#
-	## Current action (aggression level) and reward (from damage metric)
-	#var current_action = aggression_level
-	#var current_reward = get_current_reward()  # Implement this function to track damage
+	file = FileAccess.open(log_file_path, FileAccess.WRITE_READ)
+	file.store_csv_line(PackedStringArray([
+		"playerAggression", 
+		"distance", 
+		"pastNemStates",
+		"pastNemStatesENC",
+		"nemInput",
+		"curReward"]))
 
 	var logEntry : PackedStringArray = PackedStringArray([
 		player.getPeriodAggression(), # player aggression
 		getPlayerDistance(), # distance
 		",".join(PackedStringArray(getPastNemBehaviors())), # past nem states
 		getPastNemBehaviors().map(mapToNemBehaviorEncodings), # past nem states encoded numerically
-		getCurInput(), # current nem input
+		getCurInputString(), # current nem input
 		getCurrentReward() # current nem reward value
 	])
-	#file.store_csv_line(logEntry)
-	#file.close()
-	pass
-
-#func get_current_reward() -> int:
-	#return 0
+	# print(logEntry)
+	file.store_csv_line(logEntry)
+	file.close()

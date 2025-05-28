@@ -4,9 +4,7 @@ extends NemState
 @onready var kick_timer = $"../../Timers/KickTimer"
 
 ### Updates floor tracking for coyote time and adds jump velocity
-func enter() -> void:
-	print("Nem Now Jumping")
-	
+func enter() -> void:	
 	if stats.wallKicking != 0:
 		nemesis.velocity.y = stats.JUMP_VELOCITY
 		nemesis.velocity.x = stats.KICK_VELOCITY * stats.wallKicking

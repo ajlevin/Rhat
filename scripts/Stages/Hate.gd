@@ -101,6 +101,7 @@ func update(_delta : float) -> void:
 func begin_transition():
 	zone_transitioned.emit(self, "identity")
 	print("transition out of Hate")
+	nemesis.reviveNem()
 	
 ### TESTING -- USED TO SWAP BETWEEN REALMS
 func physics_update(_delta : float) -> void:

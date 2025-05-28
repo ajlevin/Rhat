@@ -6,7 +6,6 @@ var wallDirection : float
 
 ### Sets which direction the wall being latched to is
 func enter() -> void:
-	print("Nem Now OnWall")
 	wallDirection = -1 if left_wall_ray.is_colliding() else 1
 	
 func exit() -> void:

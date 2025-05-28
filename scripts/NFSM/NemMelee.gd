@@ -8,7 +8,6 @@ func _ready() -> void:
 	melee.disable()
 
 func enter() -> void:
-	print("Nem Now Attacking")
 	nemesis.velocity.x = 0
 	animation_player.play("melee")
 	
@@ -43,4 +42,4 @@ func state_check() -> void:
 	if nemesis.is_on_floor():
 		transitioned.emit(self, "nemidle")
 	else:
-		transitioned.emit(self, "nedmairborne")
+		transitioned.emit(self, "nemairborne")

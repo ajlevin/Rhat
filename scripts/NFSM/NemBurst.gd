@@ -4,17 +4,16 @@ extends NemState
 
 func _ready() -> void:
 	burst.disable()
-	burst.set_damage(1)
 
 func enter() -> void:
-	print("Nem Now Bursting")
 	nemesis.velocity.x = 0
 	nemesis.velocity.y = 0
+	burst.set_damage(1)
 	
-	#if stats.burstCharges <= 0:
-		#state_check()
-	#else:
-	stats.burstCharges -= 1
+	if stats.burstCharges <= 0:
+		state_check()
+	else:
+		stats.burstCharges -= 1
 	burst.enable()
 	animation_player.play("burst")
 	
