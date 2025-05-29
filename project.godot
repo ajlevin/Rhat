@@ -14,6 +14,10 @@ config/name="Rhat"
 run/main_scene="res://scenes/Universal/game_controller.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 
+[autoload]
+
+NemModel="*res://scripts/NemBehaviorModel.gd"
+
 [display]
 
 window/stretch/mode="viewport"
