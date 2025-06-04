@@ -3,13 +3,14 @@ import csv
 import json
 
 # === Config ===
-NUM_BINS = 5
+NUM_DISTANCE_BINS = 3
+NUM_PLAYER_BINS = 5
 NUM_ACTIONS = 13
 LEARNING_RATE = 0.3
 DISCOUNT = 0.9
 NUM_EPOCHS = 10
-PLAYER_AGG_MAX = 5  
-DISTANCE_MAX = 500000  # Adjust this based on your game's typical max distance
+PLAYER_AGG_MAX = 100
+DISTANCE_MAX = 500000 
 
 q_table = {}
 
@@ -48,48 +49,24 @@ aggression_mapping = {
 
 # === Helper Functions ===
 
-def get_weighted_aggression(q_table, player_agg: float, dist: float) -> float:
-    state = str(make_state(player_agg, dist))
-    if state not in q_table:
-        return 50  # Default aggression if state unseen
-
-    q_values = q_table[state]
-    weighted_sum = 0.0
-    total_weight = 0.0
-
-    for action_index, q_value in enumerate(q_values):
-        if action_index not in reverse_action_mapping:
-            continue  # skip invalid indices
-        behavior_label = reverse_action_mapping[action_index]
-        aggression_level = aggression_mapping.get(behavior_label, 50)
-        weight = 1 + q_value
-        weighted_sum += weight * aggression_level
-        total_weight += weight
-
-    if total_weight == 0:
-        return 50  # fallback
-    net_aggression = weighted_sum / total_weight
-    print(f"Weighted Aggression for state {state}: {net_aggression:.2f}")
-    return net_aggression
-
 def decode_nem_state(nem_state: str) -> int:
     key = nem_state.replace("Nem", "")
     return action_mapping.get(key, 1)  # default to Idle if not found
 
-def discretize_value(value: float, max_value: float) -> int:
+def discretize_value(value: float, max_value: float, num_bins: int) -> int:
     """Discretize any value into an integer bin."""
-    bin_width = max_value / NUM_BINS
-    return min(NUM_BINS, max(0, int(value // bin_width)))
+    bin_width = max_value / num_bins
+    return min(num_bins, max(0, int(value // bin_width)))
 
 def make_state(player_agg: float, dist: float) -> tuple:
-    player_agg_bin = discretize_value(player_agg, PLAYER_AGG_MAX)
-    dist_bin = discretize_value(dist, DISTANCE_MAX)
+    player_agg_bin = discretize_value(player_agg, PLAYER_AGG_MAX, NUM_PLAYER_BINS)
+    dist_bin = discretize_value(dist, DISTANCE_MAX, NUM_DISTANCE_BINS)
     return (player_agg_bin, dist_bin)
 
 def choose_action(state: tuple) -> int:
     if state not in q_table:
         q_table[state] = [0.0] * NUM_ACTIONS
-    return max(range(NUM_BINS + 1), key=lambda i: q_table[state][i])
+    return max(range(NUM_ACTIONS + 1), key=lambda i: q_table[state][i])
 
 def update_q(state: tuple, action: int, reward: int, next_state: tuple):
     if next_state not in q_table:
@@ -111,7 +88,7 @@ def load_and_train_from_logs(log_folder: str):
     for epoch in range(NUM_EPOCHS):
         print(f"Epoch {epoch+1}/{NUM_EPOCHS}")
         for filename in files:
-            print(f"Processing file: {filename}")
+            # print(f"Processing file: {filename}") # Debugging
             filepath = os.path.join(log_folder, filename)
             with open(filepath, "r", newline='', encoding='utf-8') as txtfile:
                 reader = csv.DictReader(txtfile)
@@ -147,12 +124,41 @@ def predict_nem_behavior(q_table, player_agg: float, dist: float) -> int:
     nem_behavior_label = reverse_action_mapping[best_action_index]
     return nem_behavior_label
 
+def get_weighted_aggression(q_table, player_agg: float, dist: float) -> float:
+    state = str(make_state(player_agg, dist))
+    if state not in q_table:
+        return 50  # Default aggression if state unseen
+
+    q_values = q_table[state]
+    weighted_sum = 0.0
+    total_weight = 0.0
+
+    for action_index, q_value in enumerate(q_values):
+        if action_index not in reverse_action_mapping:
+            continue  # skip invalid indices
+        behavior_label = reverse_action_mapping[action_index]
+        aggression_level = aggression_mapping.get(behavior_label, 50)
+        weight = 1 + q_value
+        weighted_sum += weight * aggression_level
+        total_weight += weight
+
+    if total_weight == 0:
+        return 50  # fallback
+    net_aggression = weighted_sum / total_weight
+    print(f"Weighted Aggression for state {state}: {net_aggression:.2f}")
+    return net_aggression
+
 # === Main ===
 
 if __name__ == "__main__":
-    print("🔧 Training model from logs...")
+    print("Training model from logs...")
     load_and_train_from_logs("../logs")
     print("Training complete.")
+
+    print("Training model from fastlogs...")
+    load_and_train_from_logs("../fastlogs")
+    print("Training complete.")
+
     save_model()
     print("Model saved to q_table.json.")
 
