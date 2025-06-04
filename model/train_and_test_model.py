@@ -145,7 +145,7 @@ def get_weighted_aggression(q_table, player_agg: float, dist: float) -> float:
     if total_weight == 0:
         return 50  # fallback
     net_aggression = weighted_sum / total_weight
-    print(f"Weighted Aggression for state {state}: {net_aggression:.2f}")
+    print(f"Weighted Aggression for state {state}: {net_aggression:.2f}") # Debugging
     return net_aggression
 
 # === Main ===
