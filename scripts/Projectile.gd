@@ -26,7 +26,7 @@ func reverse(isPlayer : bool):
 		hitbox.set_collision_mask_value(6, true)
 	
 	stun = true
-	# hitbox.set_damage(0)
+	hitbox.set_damage(1)
 	dir *= -1
 	destination = global_position.x + (300 * dir)
 

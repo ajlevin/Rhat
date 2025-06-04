@@ -27,7 +27,7 @@ var actionableTimer : Timer = null
 var burstTimer : Timer = null
 
 func _ready() -> void:
-	maxHealth = 3
+	maxHealth = 5
 	immortal = true
 	health = maxHealth
 

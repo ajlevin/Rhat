@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://y2qre7lcjbe8"]
 
-[ext_resource type="Script" path="res://scripts/Stages/Identity.gd" id="1_ugr6p"]
+[ext_resource type="Script" uid="uid://cy48tyohhev7l" path="res://scripts/Stages/Identity.gd" id="1_ugr6p"]
 
 [node name="Intro" type="Node2D"]
 position = Vector2(-308, -218)

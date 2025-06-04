@@ -3,7 +3,6 @@ extends Zone
 
 @onready var anxiety_map : TileMapLayer = $"../../TileMaps/AnxietyMap"
 @onready var anxiety_plax: Node2D = $"../../Backgrounds/AnxietyPlax"
-@onready var slimeNode : Resource = preload("res://scenes/slime.tscn")
 @onready var anxiety_nav: NavigationRegion2D = $"../../NavLayers/AnxietyNav"
 @onready var nemesis: Nemesis = $"../../Nemesis"
 

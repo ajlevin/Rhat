@@ -21,7 +21,7 @@ func enter() -> void:
 		blastDir = -1
 	
 	projectile = projectileNode.instantiate()
-	projectile.create(nemesis.global_position, blastDir, 5, 4)
+	projectile.create(nemesis.global_position, blastDir, 3, 6)
 	add_child(projectile)
 
 func exit() -> void:

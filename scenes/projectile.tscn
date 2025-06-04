@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://btc3x4o5k6okl"]
 
-[ext_resource type="Script" path="res://scripts/Projectile.gd" id="1_yv3xy"]
-[ext_resource type="Script" path="res://scripts/Universal/Hitbox.gd" id="2_30puv"]
+[ext_resource type="Script" uid="uid://ficb7flr4ri1" path="res://scripts/Projectile.gd" id="1_yv3xy"]
+[ext_resource type="Script" uid="uid://bte1hwr8l4c8p" path="res://scripts/Universal/Hitbox.gd" id="2_30puv"]
 [ext_resource type="Texture2D" uid="uid://dqud8njq64oer" path="res://assets/Holders/Thunder Effect 01/Thunder Effect 01/Thunder Projectile 1/Thunder projectile1 wo blur.png" id="2_xxldi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b2rs4"]

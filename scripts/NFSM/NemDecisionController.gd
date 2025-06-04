@@ -14,7 +14,7 @@ extends Node
 @onready var player : Player = get_tree().get_first_node_in_group("Player")
 @onready var log_file_path = "res://logs/agrex_data" + \
 	Time.get_datetime_string_from_system(true).replace(":", "").replace("-","") \
-	+ ".txt"
+	+ ".txt" : get = getLogFilePath
 
 @export var targetDir : Vector2
 enum NemInput {
@@ -30,18 +30,18 @@ enum NemInput {
 }
 
 const NemBehaviorEncodings : Dictionary = {
-	"NemAirborne" : "0",
-	"NemBlast" : "1",
-	"NemBurst" : "2",
-	"NemCounter" : "3",
-	"NemDash" : "4",
-	"NemDead" : "5",
-	"NemHit" : "6",
-	"NemIdle" : "7",
-	"NemJump" : "8",
-	"NemMelee" : "10",
-	"NemOnWall" : "11",
-	"NemRun" : "12"
+	"NemAirborne" : 0,
+	"NemBlast" : 1,
+	"NemBurst" : 2,
+	"NemCounter" : 3,
+	"NemDash" : 4,
+	"NemDead" : 5,
+	"NemHit" : 6,
+	"NemIdle" : 7,
+	"NemJump" : 8,
+	"NemMelee" : 10,
+	"NemOnWall" : 11,
+	"NemRun" : 12
 }
 
 @export var initialTemperment : Temperment
@@ -114,7 +114,7 @@ func getPlayerDistance() -> float:
 func getPastNemBehaviors() -> Array:
 	return nemesis.getStateRecord()
 	
-func mapToNemBehaviorEncodings(behavior : String) -> String:
+func mapToNemBehaviorEncodings(behavior : String) -> int:
 	return NemBehaviorEncodings.get(behavior)
 	
 func getCurrentReward() -> int:
@@ -148,17 +148,24 @@ func _process(delta : float) -> void:
 func _physics_process(delta : float) -> void:
 	curTemperment.physics_update(delta)
 
+func getLogFilePath() -> String:
+	return log_file_path
+
 func log_current_state():
 	var file : FileAccess
 	
-	file = FileAccess.open(log_file_path, FileAccess.WRITE_READ)
-	file.store_csv_line(PackedStringArray([
-		"playerAggression", 
-		"distance", 
-		"pastNemStates",
-		"pastNemStatesENC",
-		"nemInput",
-		"curReward"]))
+	if FileAccess.file_exists(log_file_path):
+		file = FileAccess.open(log_file_path, FileAccess.READ_WRITE)
+		file.seek_end(0)
+	else:
+		file = FileAccess.open(log_file_path, FileAccess.WRITE_READ)
+		file.store_csv_line(PackedStringArray([
+			"playerAggression", 
+			"distance", 
+			"pastNemStates",
+			"pastNemStatesENC",
+			"nemInput",
+			"curReward"]))
 
 	var logEntry : PackedStringArray = PackedStringArray([
 		player.getPeriodAggression(), # player aggression
@@ -171,3 +178,8 @@ func log_current_state():
 	# print(logEntry)
 	file.store_csv_line(logEntry)
 	file.close()
+
+func _on_range_timer_timeout() -> void:
+	print("yass")
+	curTemperment.curRange = int(curTemperment.range * randf_range(0.5, 2))
+	print(curTemperment.curRange)

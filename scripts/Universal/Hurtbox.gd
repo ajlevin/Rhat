@@ -29,9 +29,6 @@ func _on_area_exited(hitbox: Hitbox) -> void:
 		print("left " + hitbox.get_parent().name)
 
 func is_countering() -> bool:
-	if get_parent() is Slime:
-		return true
-	
 	if (stats is PlayerStats) or (stats is NemStats):
 		return stats.countering
 	else:

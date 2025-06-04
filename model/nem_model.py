@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 # --- Step 1: Prepare Data ---
 # Features: [PlayerAggression, DistanceToEnemy, LastBehavior]
 X = np.array([
-    [80, 10, 7],   # Sample 1
-    [20, 85, 0],   # Sample 2
-    [50, 50, 1],   # Sample 3
-    [90, 5, 4],    # Sample 4
-    [60, 30, 8]    # Sample 5
+	[80, 10, 7],   # Sample 1
+	[20, 85, 0],   # Sample 2
+	[50, 50, 1],   # Sample 3
+	[90, 5, 4],    # Sample 4
+	[60, 30, 8]    # Sample 5
 ])
 
 # Target: AggressionLevel (0-100)
@@ -21,10 +21,10 @@ X_normalized = X / np.array([100, 100, 11])  # Max values for each feature
 
 # --- Step 2: Build Model ---
 model = Sequential([
-    Input(shape=(3,)),  # Input layer (3 features)
-    Dense(8, input_dim=3, activation='relu'),  # Input layer (3 features)
-    Dense(4, activation='relu'),              # Hidden layer
-    Dense(1, activation='linear')             # Output layer (0-100)
+	Input(shape=(3,)),  # Input layer (3 features)
+	Dense(8, input_dim=3, activation='relu'),  # Input layer (3 features)
+	Dense(4, activation='relu'),              # Hidden layer
+	Dense(1, activation='linear')             # Output layer (0-100)
 ])
 
 model.compile(optimizer='adam', loss='mse')  # Mean Squared Error for regression
@@ -51,9 +51,9 @@ print(f"Loaded Model Prediction: {loaded_prediction:.1f}")  # Should be ~95
 # --- Step 7: Evaluate Model ---
 # Evaluate on a new dataset 
 X_test = np.array([
-    [30, 70, 2],   # Sample 1
-    [10, 90, 0],   # Sample 2
-    [50, 50, 5]    # Sample 3
+	[30, 70, 2],   # Sample 1
+	[10, 90, 0],   # Sample 2
+	[50, 50, 5]    # Sample 3
 ])
 y_test = np.array([30, 5, 50])  # Expected Aggression Levels
 X_test_normalized = X_test / np.array([100, 100, 11])

@@ -1,29 +1,29 @@
 [gd_scene load_steps=137 format=3 uid="uid://cahhif8t6eo03"]
 
-[ext_resource type="Script" path="res://scripts/Player.gd" id="1_ygmf4"]
-[ext_resource type="Script" path="res://scripts/Stats/PlayerStats.gd" id="2_iwdy0"]
+[ext_resource type="Script" uid="uid://br0cnayerlfot" path="res://scripts/Player.gd" id="1_ygmf4"]
+[ext_resource type="Script" uid="uid://m76jfb2s4nyt" path="res://scripts/Stats/PlayerStats.gd" id="2_iwdy0"]
 [ext_resource type="PackedScene" uid="uid://nyc3ohxqbouq" path="res://scenes/Universal/hurtbox.tscn" id="3_3jhed"]
 [ext_resource type="Texture2D" uid="uid://bv7ufy63op0ra" path="res://assets/Main/Player/Player2.3.png" id="4_al2iv"]
 [ext_resource type="Texture2D" uid="uid://byn70r8rxq4pk" path="res://assets/Holders/Smoke Effect 01/Smoke Effect 01/Smoke VFX 1.png" id="4_aqx0n"]
 [ext_resource type="Texture2D" uid="uid://bb5cka2awd6sv" path="res://assets/Main/Player/player.png" id="4_hgwbf"]
-[ext_resource type="Script" path="res://scripts/Universal/Hitbox.gd" id="5_03dk4"]
+[ext_resource type="Script" uid="uid://bte1hwr8l4c8p" path="res://scripts/Universal/Hitbox.gd" id="5_03dk4"]
 [ext_resource type="Texture2D" uid="uid://bx2tmqppgxnv5" path="res://assets/Main/Player/FX/BigSlashV.png" id="6_paywa"]
-[ext_resource type="Script" path="res://scripts/PFSM/PlayerStateMachine.gd" id="6_vlsyt"]
+[ext_resource type="Script" uid="uid://5gy3nwg5u37i" path="res://scripts/PFSM/PlayerStateMachine.gd" id="6_vlsyt"]
 [ext_resource type="Texture2D" uid="uid://bmx4hymij3g07" path="res://assets/Main/Player/FX/_106x106_small.png" id="6_ymoqe"]
 [ext_resource type="Texture2D" uid="uid://c8o7c7wltthkb" path="res://assets/Main/Player/FX/223.png" id="7_ftlek"]
-[ext_resource type="Script" path="res://scripts/PFSM/Idle.gd" id="7_qyw7l"]
-[ext_resource type="Script" path="res://scripts/PFSM/Run.gd" id="8_5mwc2"]
-[ext_resource type="Script" path="res://scripts/PFSM/Blast.gd" id="8_mk7im"]
-[ext_resource type="Script" path="res://scripts/PFSM/Melee.gd" id="9_dav7q"]
-[ext_resource type="Script" path="res://scripts/PFSM/OnWall.gd" id="10_wy3i6"]
-[ext_resource type="Script" path="res://scripts/PFSM/Burst.gd" id="11_1ij6p"]
-[ext_resource type="Script" path="res://scripts/PFSM/Airborne.gd" id="11_rdxji"]
-[ext_resource type="Script" path="res://scripts/PFSM/Dead.gd" id="12_ex2rv"]
-[ext_resource type="Script" path="res://scripts/PFSM/Spawn.gd" id="13_scs5x"]
-[ext_resource type="Script" path="res://scripts/PFSM/Hit.gd" id="14_fmnic"]
-[ext_resource type="Script" path="res://scripts/PFSM/Dash.gd" id="15_mr725"]
-[ext_resource type="Script" path="res://scripts/PFSM/Jump.gd" id="15_t8mmb"]
-[ext_resource type="Script" path="res://scripts/PFSM/Counter.gd" id="20_3jaqf"]
+[ext_resource type="Script" uid="uid://dycev6qc5760v" path="res://scripts/PFSM/Idle.gd" id="7_qyw7l"]
+[ext_resource type="Script" uid="uid://qxtbjfkaym1n" path="res://scripts/PFSM/Run.gd" id="8_5mwc2"]
+[ext_resource type="Script" uid="uid://c6b2ywygwoavh" path="res://scripts/PFSM/Blast.gd" id="8_mk7im"]
+[ext_resource type="Script" uid="uid://brx6t4q575x1m" path="res://scripts/PFSM/Melee.gd" id="9_dav7q"]
+[ext_resource type="Script" uid="uid://blta1jcmmgqlc" path="res://scripts/PFSM/OnWall.gd" id="10_wy3i6"]
+[ext_resource type="Script" uid="uid://dwi28j7m73j82" path="res://scripts/PFSM/Burst.gd" id="11_1ij6p"]
+[ext_resource type="Script" uid="uid://brdmdrw3wmqgn" path="res://scripts/PFSM/Airborne.gd" id="11_rdxji"]
+[ext_resource type="Script" uid="uid://da3k0aahi8582" path="res://scripts/PFSM/Dead.gd" id="12_ex2rv"]
+[ext_resource type="Script" uid="uid://b3q6kwvwg33is" path="res://scripts/PFSM/Spawn.gd" id="13_scs5x"]
+[ext_resource type="Script" uid="uid://dl8njfef8qjut" path="res://scripts/PFSM/Hit.gd" id="14_fmnic"]
+[ext_resource type="Script" uid="uid://b06sfno5uwldt" path="res://scripts/PFSM/Dash.gd" id="15_mr725"]
+[ext_resource type="Script" uid="uid://dohsbxl4tucp1" path="res://scripts/PFSM/Jump.gd" id="15_t8mmb"]
+[ext_resource type="Script" uid="uid://cety2tpbilbxw" path="res://scripts/PFSM/Counter.gd" id="20_3jaqf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0cypo"]
 atlas = ExtResource("4_hgwbf")
@@ -1084,9 +1084,15 @@ tracks/2/path = NodePath("StateMachine/Hit")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.1),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.1, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
+"args": [],
+"method": &"state_check"
+}, {
+"args": [],
+"method": &"state_check"
+}, {
 "args": [],
 "method": &"state_check"
 }]
@@ -1189,15 +1195,15 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_20523"]
 _data = {
-"RESET": SubResource("Animation_gnnj4"),
-"blast": SubResource("Animation_qs7hh"),
-"burst": SubResource("Animation_upa2h"),
-"counter": SubResource("Animation_pt1ud"),
-"dash": SubResource("Animation_s3lax"),
-"death": SubResource("Animation_i4fx7"),
-"iFrames": SubResource("Animation_xo4vd"),
-"melee": SubResource("Animation_uygf5"),
-"run": SubResource("Animation_pyhgf")
+&"RESET": SubResource("Animation_gnnj4"),
+&"blast": SubResource("Animation_qs7hh"),
+&"burst": SubResource("Animation_upa2h"),
+&"counter": SubResource("Animation_pt1ud"),
+&"dash": SubResource("Animation_s3lax"),
+&"death": SubResource("Animation_i4fx7"),
+&"iFrames": SubResource("Animation_xo4vd"),
+&"melee": SubResource("Animation_uygf5"),
+&"run": SubResource("Animation_pyhgf")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_y2oun"]
@@ -1268,7 +1274,7 @@ autoplay = "blank"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["Player"]]
 libraries = {
-"": SubResource("AnimationLibrary_20523")
+&"": SubResource("AnimationLibrary_20523")
 }
 autoplay = "RESET"
 
@@ -1359,6 +1365,10 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
+[node name="FreakyTimer" type="Timer" parent="Timers"]
+wait_time = 0.3
+one_shot = true
+
 [node name="StateMachine" type="Node" parent="." groups=["Player"]]
 script = ExtResource("6_vlsyt")
 
@@ -1417,3 +1427,4 @@ script = ExtResource("13_scs5x")
 [connection signal="timeout" from="Timers/JumpBufferTimer" to="." method="_on_jump_buffer_timer_timeout"]
 [connection signal="timeout" from="Timers/JumpBufferTimer" to="StateMachine/Airborne" method="_on_jump_buffer_timer_timeout"]
 [connection signal="timeout" from="Timers/KickTimer" to="StateMachine/Jump" method="_on_kick_timer_timeout"]
+[connection signal="timeout" from="Timers/FreakyTimer" to="StateMachine/Hit" method="_on_freaky_timer_timeout"]

@@ -1,31 +1,36 @@
-[gd_scene load_steps=140 format=3 uid="uid://bfjo0gokd7mlj"]
+[gd_scene load_steps=145 format=3 uid="uid://bfjo0gokd7mlj"]
 
-[ext_resource type="Script" path="res://scripts/Nemesis.gd" id="1_6amds"]
-[ext_resource type="Script" path="res://scripts/Stats/NemStats.gd" id="2_cmh1y"]
+[ext_resource type="Script" uid="uid://dn7fr7ha1kgsb" path="res://scripts/Nemesis.gd" id="1_6amds"]
+[ext_resource type="Script" uid="uid://blcvkd7p1nxnr" path="res://scripts/Stats/NemStats.gd" id="2_cmh1y"]
 [ext_resource type="PackedScene" uid="uid://nyc3ohxqbouq" path="res://scenes/Universal/hurtbox.tscn" id="3_bhsb7"]
 [ext_resource type="Texture2D" uid="uid://bb5cka2awd6sv" path="res://assets/Main/Player/player.png" id="3_hdlux"]
-[ext_resource type="Shader" path="res://scripts/player.gdshader" id="3_qfyko"]
-[ext_resource type="Script" path="res://scripts/Universal/Hitbox.gd" id="4_2lxtv"]
+[ext_resource type="Shader" uid="uid://c02qhycugihwi" path="res://scripts/player.gdshader" id="3_qfyko"]
+[ext_resource type="Script" uid="uid://bte1hwr8l4c8p" path="res://scripts/Universal/Hitbox.gd" id="4_2lxtv"]
 [ext_resource type="Texture2D" uid="uid://bv7ufy63op0ra" path="res://assets/Main/Player/Player2.3.png" id="4_mnxnu"]
 [ext_resource type="Texture2D" uid="uid://byn70r8rxq4pk" path="res://assets/Holders/Smoke Effect 01/Smoke Effect 01/Smoke VFX 1.png" id="6_4uhis"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemStateMachine.gd" id="6_745qx"]
+[ext_resource type="Script" uid="uid://ws6akw0cb7a8" path="res://scripts/NFSM/NemStateMachine.gd" id="6_745qx"]
 [ext_resource type="Texture2D" uid="uid://bmx4hymij3g07" path="res://assets/Main/Player/FX/_106x106_small.png" id="7_64sl4"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemAirborne.gd" id="7_jsgpl"]
+[ext_resource type="Script" uid="uid://0hod8qaqccom" path="res://scripts/NFSM/NemAirborne.gd" id="7_jsgpl"]
 [ext_resource type="Texture2D" uid="uid://c8o7c7wltthkb" path="res://assets/Main/Player/FX/223.png" id="8_sah4c"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemBlast.gd" id="8_tphgm"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemDash.gd" id="9_1bwuo"]
+[ext_resource type="Script" uid="uid://dq1gi5oka45hp" path="res://scripts/NFSM/NemBlast.gd" id="8_tphgm"]
+[ext_resource type="Script" uid="uid://bqvwcg0civghk" path="res://scripts/NFSM/NemDash.gd" id="9_1bwuo"]
 [ext_resource type="Texture2D" uid="uid://bx2tmqppgxnv5" path="res://assets/Main/Player/FX/BigSlashV.png" id="9_u87rk"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemBurst.gd" id="10_lkv4j"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemDead.gd" id="10_qbj6m"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemHit.gd" id="11_yj142"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemIdle.gd" id="12_7xdtr"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemJump.gd" id="13_pj6yq"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemMelee.gd" id="14_pixgg"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemOnWall.gd" id="15_f6bly"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemCounter.gd" id="15_fefe3"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemRun.gd" id="22_s8daa"]
-[ext_resource type="Script" path="res://scripts/NFSM/NemDecisionController.gd" id="23_urrqe"]
-[ext_resource type="Script" path="res://scripts/NemBrain/Neutral.gd" id="24_wpsnf"]
+[ext_resource type="Script" uid="uid://by87a1rmo2irt" path="res://scripts/NFSM/NemBurst.gd" id="10_lkv4j"]
+[ext_resource type="Script" uid="uid://dfyhxxk0us6j" path="res://scripts/NFSM/NemDead.gd" id="10_qbj6m"]
+[ext_resource type="Script" uid="uid://blrdhjmeohu7m" path="res://scripts/NFSM/NemHit.gd" id="11_yj142"]
+[ext_resource type="Script" uid="uid://cbw2f50sx3jj6" path="res://scripts/NFSM/NemIdle.gd" id="12_7xdtr"]
+[ext_resource type="Script" uid="uid://brroddhhrt2kd" path="res://scripts/NFSM/NemJump.gd" id="13_pj6yq"]
+[ext_resource type="Script" uid="uid://bxlh4ouwjuhjt" path="res://scripts/NFSM/NemMelee.gd" id="14_pixgg"]
+[ext_resource type="Script" uid="uid://cgqibo5a0ptoo" path="res://scripts/NFSM/NemOnWall.gd" id="15_f6bly"]
+[ext_resource type="Script" uid="uid://c40at6uod6dqy" path="res://scripts/NFSM/NemCounter.gd" id="15_fefe3"]
+[ext_resource type="Script" uid="uid://bcej1c8347uc1" path="res://scripts/NFSM/NemRun.gd" id="22_s8daa"]
+[ext_resource type="Script" uid="uid://xjc65xmj1l0j" path="res://scripts/NFSM/NemDecisionController.gd" id="23_urrqe"]
+[ext_resource type="Script" uid="uid://8todkn761xkk" path="res://scripts/NemBrain/Neutral.gd" id="24_wpsnf"]
+[ext_resource type="Script" uid="uid://buhytrju48i7k" path="res://scripts/NemBrain/Risky.gd" id="26_o32p2"]
+[ext_resource type="Script" uid="uid://d0hbt3xb3kc3f" path="res://scripts/NemBehaviorModel.gd" id="27_sq3r8"]
+[ext_resource type="Script" uid="uid://nefjx14btjo3" path="res://scripts/NemBrain/Brave.gd" id="27_ynuau"]
+[ext_resource type="Script" uid="uid://c0bf2ppy2p0f6" path="res://scripts/NemBrain/Reserved.gd" id="29_8fw1v"]
+[ext_resource type="Script" uid="uid://d27y6lfboc57f" path="res://scripts/NemBrain/Cowardly.gd" id="30_v4sjj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o8wx1"]
 shader = ExtResource("3_qfyko")
@@ -38,7 +43,7 @@ shader_parameter/new_color1 = Color(0.191559, 0.220901, 0.42833, 1)
 shader_parameter/new_color2 = Color(0.226493, 0.202528, 0.426955, 1)
 shader_parameter/new_color3 = Color(0.164169, 0.16822, 0.313988, 1)
 shader_parameter/new_color4 = Color(0, 0, 0, 1)
-shader_parameter/new_color5 = null
+shader_parameter/new_color5 = Color(0, 0, 0, 1)
 shader_parameter/tolerance = 0.01
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0cypo"]
@@ -1054,9 +1059,15 @@ tracks/1/path = NodePath("NemStateMachine/NemHit")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.1),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.1, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
+"args": [],
+"method": &"state_check"
+}, {
+"args": [],
+"method": &"state_check"
+}, {
 "args": [],
 "method": &"state_check"
 }]
@@ -1142,15 +1153,15 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_20523"]
 _data = {
-"RESET": SubResource("Animation_gnnj4"),
-"blast": SubResource("Animation_qs7hh"),
-"burst": SubResource("Animation_ylef0"),
-"counter": SubResource("Animation_m8xgw"),
-"dash": SubResource("Animation_s3lax"),
-"death": SubResource("Animation_i4fx7"),
-"iFrames": SubResource("Animation_xo4vd"),
-"melee": SubResource("Animation_uygf5"),
-"run": SubResource("Animation_pyhgf")
+&"RESET": SubResource("Animation_gnnj4"),
+&"blast": SubResource("Animation_qs7hh"),
+&"burst": SubResource("Animation_ylef0"),
+&"counter": SubResource("Animation_m8xgw"),
+&"dash": SubResource("Animation_s3lax"),
+&"death": SubResource("Animation_i4fx7"),
+&"iFrames": SubResource("Animation_xo4vd"),
+&"melee": SubResource("Animation_uygf5"),
+&"run": SubResource("Animation_pyhgf")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_y2oun"]
@@ -1221,7 +1232,7 @@ autoplay = "blank"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_20523")
+&"": SubResource("AnimationLibrary_20523")
 }
 autoplay = "RESET"
 
@@ -1239,13 +1250,11 @@ position = Vector2(0, -18)
 shape = SubResource("CapsuleShape2D_ol718")
 
 [node name="collision" type="CollisionShape2D" parent="."]
-visible = false
 light_mask = 2
 position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_3s36k")
 
 [node name="counter" type="Area2D" parent="."]
-visible = false
 collision_layer = 32
 collision_mask = 4
 
@@ -1299,7 +1308,6 @@ collide_with_areas = true
 target_position = Vector2(0, -75)
 
 [node name="Hitboxes" type="Node2D" parent="."]
-visible = false
 
 [node name="melee" type="Area2D" parent="Hitboxes"]
 collision_layer = 20
@@ -1342,6 +1350,14 @@ one_shot = true
 wait_time = 10.0
 autostart = true
 
+[node name="RangeTimer" type="Timer" parent="Timers"]
+wait_time = 3.0
+autostart = true
+
+[node name="FreakierTimer" type="Timer" parent="Timers"]
+wait_time = 0.3
+one_shot = true
+
 [node name="NemStateMachine" type="Node" parent="."]
 script = ExtResource("6_745qx")
 
@@ -1381,15 +1397,31 @@ script = ExtResource("15_f6bly")
 [node name="NemRun" type="Node" parent="NemStateMachine"]
 script = ExtResource("22_s8daa")
 
-[node name="NemDecisionController" type="Node" parent="."]
+[node name="NemDecisionController" type="Node" parent="." node_paths=PackedStringArray("initialTemperment", "curTemperment")]
 script = ExtResource("23_urrqe")
+initialTemperment = NodePath("Neutral")
+curTemperment = NodePath("Neutral")
+
+[node name="Risky" type="Node" parent="NemDecisionController"]
+script = ExtResource("26_o32p2")
+
+[node name="Brave" type="Node" parent="NemDecisionController"]
+script = ExtResource("27_ynuau")
 
 [node name="Neutral" type="Node" parent="NemDecisionController"]
 script = ExtResource("24_wpsnf")
 
+[node name="Reserved" type="Node" parent="NemDecisionController"]
+script = ExtResource("29_8fw1v")
+
+[node name="Cowardly" type="Node" parent="NemDecisionController"]
+script = ExtResource("30_v4sjj")
+
+[node name="NemModel" type="Node" parent="."]
+script = ExtResource("27_sq3r8")
+
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
 simplify_path = true
-debug_enabled = true
 debug_path_custom_color = Color(0.813247, 0.198533, 0.409809, 1)
 
 [connection signal="health_changed" from="stats" to="NemStateMachine" method="_on_health_changed"]
@@ -1398,3 +1430,5 @@ debug_path_custom_color = Color(0.813247, 0.198533, 0.409809, 1)
 [connection signal="damaged" from="hurtbox" to="." method="_on_hurtbox_damaged"]
 [connection signal="timeout" from="Timers/DashResetTimer" to="NemStateMachine/NemDash" method="_on_dash_reset_timer_timeout"]
 [connection signal="timeout" from="Timers/LogTimer" to="." method="_on_log_timer_timeout"]
+[connection signal="timeout" from="Timers/RangeTimer" to="NemDecisionController" method="_on_range_timer_timeout"]
+[connection signal="timeout" from="Timers/FreakierTimer" to="NemStateMachine/NemHit" method="_on_freakier_timer_timeout"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b7r5lccnhdyld"]
 
-[ext_resource type="Script" path="res://scripts/Universal/dood.gd" id="1_4ymn1"]
-[ext_resource type="Texture2D" uid="uid://dy25o3uhxs31m" path="res://assets/dood.png" id="1_v7mqt"]
+[ext_resource type="Script" uid="uid://dxsic4dubftnl" path="res://scripts/Universal/dood.gd" id="1_4ymn1"]
+[ext_resource type="Texture2D" uid="uid://dy25o3uhxs31m" path="res://assets/Holders/dood.png" id="1_v7mqt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jrkwg"]
 size = Vector2(14, 19)

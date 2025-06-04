@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PlayerAggressionResolver" load_steps=2 format=3 uid="uid://qa0pyfu3dfrw"]
 
-[ext_resource type="Script" path="res://scripts/PlayerAggressionResolver.gd" id="1_ccro8"]
+[ext_resource type="Script" uid="uid://duexg8d25kwa4" path="res://scripts/PlayerAggressionResolver.gd" id="1_ccro8"]
 
 [resource]
 script = ExtResource("1_ccro8")

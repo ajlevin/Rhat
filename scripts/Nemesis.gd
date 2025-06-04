@@ -26,6 +26,8 @@ func _ready() -> void:
 func actor_setup():
 	await get_tree().physics_frame
 	nav_agent.target_position = player.global_position
+	print(player.position)
+	print(nav_agent.target_position)
 
 ### Update raycast tracking player location and distance
 func _process(delta: float) -> void:

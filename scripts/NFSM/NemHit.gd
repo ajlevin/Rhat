@@ -2,6 +2,7 @@ class_name NemHit
 extends NemState
 
 @onready var hurtbox : Hurtbox = $"../../hurtbox"
+@onready var freakier_timer: Timer = $"../../Timers/FreakierTimer"
 var hitVector : Vector2
 
 ### Calculates the direction and force of knockback from the hit
@@ -14,6 +15,7 @@ func enter() -> void:
 	hitVector = (hurtbox.global_position - instance_from_id(hurtbox.hitboxTimers.keys()[-1]).global_position).normalized()
 	nemesis.velocity.x = 140 * (hitVector.x)
 	nemesis.velocity.y = 120 * (hitVector.y) - 50
+	freakier_timer.start()
 	
 ### Reduces the player's velocity as it comes out of hitstun
 func exit() -> void:
@@ -38,3 +40,6 @@ func state_check() -> void:
 				transitioned.emit(self, "nemairborne")
 			else:
 				transitioned.emit(self, "nemidle")
+
+func _on_freakier_timer_timeout() -> void:
+	state_check()
