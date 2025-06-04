@@ -1,4 +1,4 @@
-playerAggression,distance,pastNemStates,pastNemStatesENC,nemInput,curReward
+playerAggression,distance,nemInput,curReward
 1,214369.0,Idle,0
 1,214369.0,Idle,0
 1,216218.34375,Run,0
