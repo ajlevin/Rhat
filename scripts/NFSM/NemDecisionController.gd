@@ -14,7 +14,7 @@ extends Node
 @onready var nbm: NemBehaviorModel = $"../NemModel"
 
 @onready var player : Player = get_tree().get_first_node_in_group("Player")
-@onready var log_file_path = "res://logs/agrex_data" + \
+@onready var log_file_path = "res://fastLogs/agrex_data" + \
 	Time.get_datetime_string_from_system(true).replace(":", "").replace("-","") \
 	+ ".txt" : get = getLogFilePath
 
@@ -114,7 +114,8 @@ func getPlayerDistance() -> float:
 	return nemesis.global_position.dot(player.global_position)
 
 func getPlayerAggression() -> int:
-	return player.getPeriodAggression()
+	# return player.getPeriodAggression()
+	return player.fetchCurAggression()
 
 func getPastNemBehaviors() -> Array:
 	return nemesis.getStateRecord()
@@ -175,8 +176,8 @@ func log_current_state():
 	var logEntry : PackedStringArray = PackedStringArray([
 		getPlayerAggression(), # player aggression
 		getPlayerDistance(), # distance
-		",".join(PackedStringArray(getPastNemBehaviors())), # past nem states
-		getPastNemBehaviors().map(mapToNemBehaviorEncodings), # past nem states encoded numerically
+		# ",".join(PackedStringArray(getPastNemBehaviors())), # past nem states
+		# getPastNemBehaviors().map(mapToNemBehaviorEncodings), # past nem states encoded numerically
 		getCurInputString(), # current nem input
 		getCurrentReward() # current nem reward value
 	])

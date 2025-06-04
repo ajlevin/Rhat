@@ -36,6 +36,7 @@ func _process(delta: float) -> void:
 ### Moves nemesis based on currently set values each tick
 func _physics_process(_delta : float) -> void:
 	# nav_agent.get_next_path_position()
+	ndc.log_current_state()
 	move_and_slide()
 
 func getPeriodDamage() -> int:
@@ -66,7 +67,7 @@ func _on_hurtbox_damaged(damage: int) -> void:
 
 func _on_log_timer_timeout() -> void:
 	print(stateRecord)
-	ndc.log_current_state()
+	#ndc.log_current_state()
 
 func reviveNem() -> void:
 	animation_player.play("RESET")
