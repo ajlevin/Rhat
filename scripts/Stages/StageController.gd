@@ -53,6 +53,7 @@ func _physics_process(delta) -> void:
 func on_zone_transition(zone, newZoneName) -> void:
 	### TESTING -- put player at default spawn location
 	player.global_position = Vector2(195, 317)
+	player.stats.health = player.stats.maxHealth
 	
 	# reached if an inactive zone manages to emit a signal >:(
 	if zone != curZone:

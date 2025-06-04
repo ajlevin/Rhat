@@ -1358,6 +1358,10 @@ autostart = true
 wait_time = 0.3
 one_shot = true
 
+[node name="MoodTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+autostart = true
+
 [node name="NemStateMachine" type="Node" parent="."]
 script = ExtResource("6_745qx")
 
@@ -1432,3 +1436,4 @@ debug_path_custom_color = Color(0.813247, 0.198533, 0.409809, 1)
 [connection signal="timeout" from="Timers/LogTimer" to="." method="_on_log_timer_timeout"]
 [connection signal="timeout" from="Timers/RangeTimer" to="NemDecisionController" method="_on_range_timer_timeout"]
 [connection signal="timeout" from="Timers/FreakierTimer" to="NemStateMachine/NemHit" method="_on_freakier_timer_timeout"]
+[connection signal="timeout" from="Timers/MoodTimer" to="NemDecisionController" method="_on_mood_timer_timeout"]

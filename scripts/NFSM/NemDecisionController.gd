@@ -10,6 +10,8 @@ extends Node
 @onready var down_right: RayCast2D = $"../Rays/downRight"
 @onready var down: RayCast2D = $"../Rays/down"
 @onready var ceiling: RayCast2D = $"../Rays/ceiling"
+@onready var mood_timer: Timer = $"../Timers/MoodTimer"
+@onready var nbm: NemBehaviorModel = $"../NemModel"
 
 @onready var player : Player = get_tree().get_first_node_in_group("Player")
 @onready var log_file_path = "res://logs/agrex_data" + \
@@ -111,6 +113,9 @@ func getPlayerDirection() -> Vector2:
 func getPlayerDistance() -> float:
 	return nemesis.global_position.dot(player.global_position)
 
+func getPlayerAggression() -> int:
+	return player.getPeriodAggression()
+
 func getPastNemBehaviors() -> Array:
 	return nemesis.getStateRecord()
 	
@@ -168,7 +173,7 @@ func log_current_state():
 			"curReward"]))
 
 	var logEntry : PackedStringArray = PackedStringArray([
-		player.getPeriodAggression(), # player aggression
+		getPlayerAggression(), # player aggression
 		getPlayerDistance(), # distance
 		",".join(PackedStringArray(getPastNemBehaviors())), # past nem states
 		getPastNemBehaviors().map(mapToNemBehaviorEncodings), # past nem states encoded numerically
@@ -183,3 +188,6 @@ func _on_range_timer_timeout() -> void:
 	print("yass")
 	curTemperment.curRange = int(curTemperment.range * randf_range(0.5, 2))
 	print(curTemperment.curRange)
+
+func _on_mood_timer_timeout() -> void:
+	curTemperment.moodChange.emit(curTemperment, nbm.calculateNextTemperment())

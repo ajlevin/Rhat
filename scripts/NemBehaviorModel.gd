@@ -4,6 +4,7 @@ extends Node
 const NUM_BINS : int = 10
 const MAX_HISTORY : int = 10
 
+@onready var ndc: NemDecisionController = $"../NemDecisionController"
 var q_table : Dictionary = {}
 
 func _ready() -> void:
@@ -36,7 +37,7 @@ func get_nem_behavior(player_agg: int, dist: int, past_behaviors: Array) -> int:
 	var key : String = make_state_key(player_agg, dist, past_behaviors)
 	if not q_table.has(key):
 		return 50  # Default cautious behavior
-	var q_valuses : Array = q_table[key]
+	var q_values : Array = q_table[key]
 	var best_index : int = 0
 	var best_value : int = -INF
 	for i in range(q_values.size()):
@@ -44,3 +45,16 @@ func get_nem_behavior(player_agg: int, dist: int, past_behaviors: Array) -> int:
 			best_value = q_values[i]
 			best_index = i
 	return int(best_index * (100 / NUM_BINS))
+
+### PROOF OF CONCEPT:
+func calculateNextTemperment() -> String:
+	if ndc.getPlayerAggression() < 15:
+		return "risky"
+	elif ndc.getPlayerAggression() < 37:
+		return "brave"
+	elif ndc.getPlayerAggression() < 63:
+		return "neutral"
+	elif ndc.getPlayerAggression() < 85:
+		return "reserved"
+	else:
+		return "cowardly"
