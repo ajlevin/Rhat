@@ -9,7 +9,7 @@ extends Node
 
 # Value from 0.0 to 1.0 with 0.0 being easy and 1.0 being hard
 # Determines the overall speed of the nemesis decision making
-@export var fairness : float = 0.999
+@export var fairness : float = 0.92
 @export var range : int
 @export var curRange : int
 @export var playerProjectile : Vector2
