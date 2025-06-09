@@ -36,7 +36,7 @@ func make_state_key(player_agg: int, dist: int, past_behaviors: Array) -> String
 func get_nem_behavior(player_agg: int, dist: int, past_behaviors: Array) -> int:
 	var key : String = make_state_key(player_agg, dist, past_behaviors)
 	if not q_table.has(key):
-		return 50  # Default cautious behavior
+		return -1  # Missing entry
 	var q_values : Array = q_table[key]
 	var best_index : int = 0
 	var best_value : int = -INF
@@ -48,6 +48,10 @@ func get_nem_behavior(player_agg: int, dist: int, past_behaviors: Array) -> int:
 
 ### PROOF OF CONCEPT:
 func calculateNextTemperment() -> String:
+	var nemBehavior : int = get_nem_behavior( \
+		ndc.getPlayerAggression(), ndc.getPlayerDistance(), ndc.getPastNemBehaviors())
+	nemBehavior = nemBehavior if nemBehavior > 0 else ndc.getPlayerAggression()
+	
 	if ndc.getPlayerAggression() < 15:
 		return "risky"
 	elif ndc.getPlayerAggression() < 37:
