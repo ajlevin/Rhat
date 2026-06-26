@@ -1,4 +1,4 @@
-# Rhat **(Name Pending)*
+# Who Am I?
 ### Nicole Ruedger & Asa Levine
 
 ## Overview:
