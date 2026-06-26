@@ -31,7 +31,6 @@ most other entities due to the player interaction of the former and the machine 
 their more mundance counterparts.
 
 #### The Machine Learning model
-*This section will be updated with more technical details as the implementation is developed is continued*
 The Nemesis (or Nem as it'll often be referred to) is the shadowed entity harassing the player as they journey through their interal environments.
 Nem will appear a few times throughout the journey, attacking the player at the end of each zone with a new learnt behavior from watching the player's
 behaviors as they've traveled. Nem contains the exact same moveset as the player, as their being is a mirror of the player themselves as they seek to
