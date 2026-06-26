@@ -2,7 +2,7 @@
 ### Nicole Ruedger & Asa Levine
 
 ## Overview:
-The Rhat* project aims to take the classic metroidvania style and explore the inner journey one takes in the process of self-growth. 
+The *Who Am I?* project aims to take the classic metroidvania style and explore the inner journey one takes in the process of self-growth. 
 As the player traverses through realms of their mind palace, they must contend with the psychosomatic manifestation of all that holds
 them back, either conquering or falling to this darker entity. However, this entity is as alive as the player, growing and learning
 with the player. Using a modified reinforcement learning algorithm, this mirrored entity learns to find the weaknesses and flaws
